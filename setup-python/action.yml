@@ -1,5 +1,6 @@
 name: 'Set up python'
 description: 'Set up GitHub Actions workflow with a version of Python configured with Valispace settings'
+author: Valispace
 inputs:
   python-version:
     description: "Version range or exact version of Python to use, using SemVer's version range syntax"
@@ -10,7 +11,7 @@ inputs:
     required: false
     default: 'requirements.txt'
   python-install-requirements:
-    description: 'Install python requirements after setup'
+    description: 'Whether to install required packages and python requirements after setup'
     required: false
     default: 'true'
 outputs:
@@ -41,3 +42,6 @@ runs:
       if: ${{ (inputs.python-install-requirements == 'true') }}
       run: 'pip install --exists-action w --requirement "${{ inputs.python-requirements-file }}"'
       shell: bash
+branding:
+  color: 'yellow'
+  icon: 'code'
