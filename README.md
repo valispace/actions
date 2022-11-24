@@ -13,6 +13,6 @@ See the [Wiki](https://github.com/valispace/actions/wiki) for details.
 Detailed changes for each release are documented in the [release notes](https://github.com/valispace/actions/releases).
 
 
-## Copyright
+## License
 
-Copyright &copy; 2015-present, [Valispace GmbH](https://www.valispace.com/about-us/)
+The scripts and documentation in this project are released under the [MIT License](../LICENSE)
