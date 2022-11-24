@@ -1,6 +1,6 @@
 # Valispace GitHub Actions
 
-A set of GitHub Actions to use in Valispace continuous integration software development cycle.
+A set of GitHub Actions to use in Valispace software development cycle.
 
 
 ## Documentation
