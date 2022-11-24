@@ -2,7 +2,7 @@
 
 This action extends [actions/setup-python](https://github.com/actions/setup-python) by installing packages `pkg-config`, `libxmlsec1-dev` and the given list of python requirements.
 
-_This is not intended to replace the original action!_
+_This is **not** intended to replace the original action!_
 
 
 ## Usage
