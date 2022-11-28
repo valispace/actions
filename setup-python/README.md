@@ -4,7 +4,6 @@ This action extends [actions/setup-python](https://github.com/actions/setup-pyth
 
 _This is **not** intended to replace the original action!_
 
-
 ## Usage
 
 <!-- start usage -->
@@ -24,7 +23,6 @@ with:
     python-install-requirements: true
 ```
 <!-- end usage -->
-
 
 ## Outputs
 
@@ -81,7 +79,6 @@ jobs:
     - run: 'echo "${{ steps.cp310.outputs.cache-hit }}"' # true if cache-hit occurred on the primary key
 ```
 
-
 ## Environment variables
 
 These environment variables become available after setup-python action execution:
@@ -92,7 +89,6 @@ These environment variables become available after setup-python action execution
 | Python_ROOT_DIR     |https://cmake.org/cmake/help/latest/module/FindPython.html#module:FindPython               |
 | Python2_ROOT_DIR    |https://cmake.org/cmake/help/latest/module/FindPython2.html#module:FindPython2             |
 | Python3_ROOT_DIR    |https://cmake.org/cmake/help/latest/module/FindPython2.html#module:FindPython3             |
-
 
 ## License
 
