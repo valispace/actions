@@ -43,5 +43,5 @@ runs:
       run: 'pip install --exists-action w --requirement "${{ inputs.python-requirements-file }}"'
       shell: bash
 branding:
-  color: 'yellow'
   icon: 'code'
+  color: 'yellow'
