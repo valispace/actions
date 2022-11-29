@@ -1,0 +1,38 @@
+name: 'Build docker image'
+description: 'Builds a docker image of this application'
+author: Valispace
+inputs:
+  name:
+    description: 'Name for the docker image'
+    required: false
+    default: '${{ github.repository }}'
+  tag:
+    description: 'Tag for the docker image'
+    required: false
+    default: 'latest'
+  dockerfile:
+    description: 'Path to the Dockerfile'
+    required: false
+    default: 'Dockerfile'
+  archive:
+    description: 'Archive name of the docker image (must include `tar.gz` extension)'
+    required: false
+    default: 'docker.tar.gz'
+runs:
+  using: composite
+  steps:
+    - id: build
+      run: 'docker build --tag ${{ inputs.name }}:latest --file "${{ inputs.dockerfile }}" .'
+      shell: bash
+    - id: tag
+      run: 'docker tag ${{ inputs.name }}:latest ${{ inputs.name }}:${{ inputs.tag }}'
+      shell: bash
+    - id: save
+      run: 'docker save ${{ inputs.name }}:${{ inputs.tag }} | gzip > "${{ inputs.archive }}"'
+      shell: bash
+    - id: test
+      run: 'tar --list --ungzip --file "${{ inputs.archive }}" 1> /dev/null'
+      shell: bash
+branding:
+  icon: 'anchor'
+  color: 'orange'
