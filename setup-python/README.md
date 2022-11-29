@@ -13,10 +13,10 @@ env:
     GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
 with:
     # Version range or exact version of Python to use, using SemVer's version range syntax.
-    # Default: 3.9
+    # Default: '3.9'
     python-version: '${{ env.PYTHON_VERSION }}'
     # Path to the python requirements file.
-    # Default: requirements.txt
+    # Default: 'requirements.txt'
     python-requirements-file: 'requirements.txt'
     # Whether to install required packages and python requirements after setup.
     # Default: true
