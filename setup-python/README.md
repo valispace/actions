@@ -92,4 +92,4 @@ These environment variables become available after setup-python action execution
 
 ## License
 
-The scripts and documentation in this project are released under the [MIT License](../LICENSE)
+The scripts and documentation in this project are released under the [MIT License](LICENSE)
