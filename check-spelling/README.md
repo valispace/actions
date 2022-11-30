@@ -12,12 +12,12 @@ uses: valispace/actions/check-spelling@master
 with:
   # Try to treat a GitHub event "a" as GitHub event "b" (JSON map).
   # Required: false
-  # Default: '{"${{ github.event_name }}":"push"}'
+  # Default: ''
   event_aliases: '{"schedule":"push"}'
   # If set, only check files changed since the last push.
   # Required: false
-  # Default: ''
-  only_check_changed_files: 'false'
+  # Default: '1'
+  only_check_changed_files: '1'
 ```
 <!-- end usage -->
 

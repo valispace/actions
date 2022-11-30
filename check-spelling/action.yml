@@ -5,7 +5,7 @@ inputs:
   event_aliases:
     description: 'Try to treat a GitHub event "a" as GitHub event "b" (JSON map)'
     required: false
-    default: '{"${{ github.event_name }}":"push"}'
+    default: ''
   only_check_changed_files:
     description: 'If set, only check files changed since the last push'
     required: false
@@ -40,8 +40,9 @@ runs:
       with:
         event_aliases: '${{ inputs.event_aliases }}'
         only_check_changed_files: '${{ inputs.only_check_changed_files }}'
-        config: './check-spelling'
         post_comment: '0'
+        config: 'check-spelling'
+        debug: 1
         extra_dictionaries:
           cspell:en_GB/src/wordsEnGb.txt
           cspell:en_GB/src/additional_words.txt
