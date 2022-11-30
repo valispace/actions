@@ -41,9 +41,7 @@ runs:
         event_aliases: '${{ inputs.event_aliases }}'
         only_check_changed_files: '${{ inputs.only_check_changed_files }}'
         post_comment: '0'
-        #config: 'check-spelling'
-        spell_check_this: 'valispace/actions/check-spelling@master'
-        debug: 1
+        config: '.'
         extra_dictionaries:
           cspell:en_GB/src/wordsEnGb.txt
           cspell:en_GB/src/additional_words.txt
