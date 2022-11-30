@@ -9,7 +9,7 @@ inputs:
   only_check_changed_files:
     description: 'If set, only check files changed since the last push'
     required: false
-    default: ''
+    default: '1'
 outputs:
   unknown_words:
     description: "Unrecognized words (should be added to expect.txt)"
