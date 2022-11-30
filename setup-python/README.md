@@ -10,17 +10,20 @@ _This is **not** intended to replace the original action!_
 ```yaml
 uses: valispace/actions/setup-python@master
 env:
-    GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
+  GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
 with:
-    # Version range or exact version of Python to use, using SemVer's version range syntax.
-    # Default: '3.9'
-    python-version: '${{ env.PYTHON_VERSION }}'
-    # Path to the python requirements file.
-    # Default: 'requirements.txt'
-    python-requirements-file: 'requirements.txt'
-    # Whether to install required packages and python requirements after setup.
-    # Default: true
-    python-install-requirements: true
+  # Version range or exact version of Python to use, using SemVer's version range syntax.
+  # Required: false
+  # Default: '3.9'
+  python-version: '3.9'
+  # Path to the python requirements file.
+  # Required: false
+  # Default: 'requirements.txt'
+  python-requirements-file: 'requirements.txt'
+  # Whether to install required packages and python requirements after setup.
+  # Required: false
+  # Default: true
+  python-install-requirements: true
 ```
 <!-- end usage -->
 
@@ -35,12 +38,12 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
-    - uses: valispace/actions/setup-python@master
-      id: 'cp310'
-      with:
-        python-version: '3.8.0 - 3.10.0'
-    - run: 'echo "${{ steps.cp310.outputs.python-version }}"'
+      - uses: actions/checkout@v3
+      - uses: valispace/actions/setup-python@master
+        id: 'cp310'
+        with:
+          python-version: '3.8.0 - 3.10.0'
+      - run: 'echo "${{ steps.cp310.outputs.python-version }}"'
 ```
 
 ### `python-path`
@@ -52,12 +55,12 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
-    - uses: valispace/actions/setup-python@master
-      id: 'cp310'
-      with:
-        python-version: '3.10'
-    - run: 'pipx run --python "${{ steps.cp310.outputs.python-path }}" nox --version'
+      - uses: actions/checkout@v3
+      - uses: valispace/actions/setup-python@master
+        id: 'cp310'
+        with:
+          python-version: '3.10'
+      - run: 'pipx run --python "${{ steps.cp310.outputs.python-path }}" nox --version'
 ```
 
 ### `cache-hit`
@@ -69,14 +72,14 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
-    - uses: valispace/actions/setup-python@master
-      id: 'cp310'
-      with:
-        python-version: '3.8.0'
-        python-requirements-file: 'requirements.txt'
-        python-install-requirements: true
-    - run: 'echo "${{ steps.cp310.outputs.cache-hit }}"' # true if cache-hit occurred on the primary key
+      - uses: actions/checkout@v3
+      - uses: valispace/actions/setup-python@master
+        id: 'cp310'
+        with:
+          python-version: '3.8.0'
+          python-requirements-file: 'requirements.txt'
+          python-install-requirements: true
+      - run: 'echo "${{ steps.cp310.outputs.cache-hit }}"' # true if cache-hit occurred on the primary key
 ```
 
 ## Environment variables
