@@ -5,7 +5,6 @@
 (?:^|/)package(?:-lock|)\.json$
 (?:^|/)docs/
 (?:^|/)locust/
-(?:^|/)vendor/
 (?:^|/).env/
 (?:^|/).venv/
 (?:^|/)pyproject.toml
@@ -61,3 +60,4 @@
 \.woff2?$
 \.xlsx?$
 \.zip$
+^\.github/action/check-spelling/
