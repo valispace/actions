@@ -1,6 +1,6 @@
 # Valispace get-build-version Action
 
-Given a project versioning file, this action extracts the current project release version (`release`) and build version (`version`).
+Given a project versioning file, this action extracts the current release version (`release`) and project version (`version`).
 
 The versioning file must contain a line with keyword `version` (e.g. "`version = 1.0.0`") for this action to return a valid output.
 
@@ -10,9 +10,10 @@ The versioning file must contain a line with keyword `version` (e.g. "`version =
 ```yaml
 uses: valispace/actions/get-build-version@master
 with:
-    # Path to the versioning file.
-    # Default: ''
-    file: '__init__.py'
+  # Path to the versioning file.
+  # Required: true
+  # Default: ''
+  file: '__init__.py'
 ```
 <!-- end usage -->
 
@@ -20,19 +21,19 @@ with:
 
 ### `release`
 
-**release** output contains the current project release version (e.g. XX.YY).
+**release** output contains the current release version (e.g. XX.YY).
 
 ```yaml
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
-    - uses: valispace/actions/get-build-version@master
-      id: 'versioning'
-      with:
-        file: '__init__.py'
-    - run: 'echo "RELEASE : ${{ steps.versioning.outputs.release }}"'
+      - uses: actions/checkout@v3
+      - uses: valispace/actions/get-build-version@master
+        id: 'versioning'
+        with:
+          file: '__init__.py'
+      - run: 'echo "RELEASE : ${{ steps.versioning.outputs.release }}"'
 ```
 
 ### `version`
@@ -44,12 +45,12 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
-    - uses: valispace/actions/get-build-version@master
-      id: 'versioning'
-      with:
-        file: '__init__.py'
-    - run: 'echo "VERSION : ${{ steps.versioning.outputs.version }}"'
+      - uses: actions/checkout@v3
+      - uses: valispace/actions/get-build-version@master
+        id: 'versioning'
+        with:
+          file: '__init__.py'
+      - run: 'echo "VERSION : ${{ steps.versioning.outputs.version }}"'
 ```
 
 ## License
