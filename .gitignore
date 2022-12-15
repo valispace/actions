@@ -1,0 +1,108 @@
+# -----------------------------------------------------------------------------
+# SYSTEM
+# -----------------------------------------------------------------------------
+
+.DS_Store
+.vagrant/
+Thumbs.db
+*.icloud
+thumbnail_kvstore*
+octave-workspace
+.bash_history
+file_watcher.pid
+nginx_signing*
+*.sock
+*.sock.lock
+pip*.txt
+pylint_result.txt
+*.bk
+
+# -----------------------------------------------------------------------------
+# KEYS & TEMPORARY FILES
+# -----------------------------------------------------------------------------
+
+*.pem
+*.pub
+configs/vault/
+configs/aws/*/compose.temp.yml
+configs/aws/*/aws-credentials.json
+configs/aws/*/db.sql
+configs/aws/*/db.creds.json
+configs/aws/*/dns-add-record.json
+configs/aws/*/dns-delete-record.json
+debug.out
+
+# -----------------------------------------------------------------------------
+# IDEs and EDITORS
+# -----------------------------------------------------------------------------
+
+.DS_Store
+.c9/
+.classpath
+.idea/
+.history/
+.mr.developer.cfg
+.project
+.pydevproject
+.settings/
+*.chproj
+*.launch
+*.sublime-*
+*.sublime-workspace
+
+# VS code
+.vscode/
+.vscode/*
+!.vscode/extensions.json
+!.vscode/launch.json
+!.vscode/settings.json
+!.vscode/tasks.json
+
+# -----------------------------------------------------------------------------
+# TESTING / COVERAGE
+# -----------------------------------------------------------------------------
+
+htmlcov/
+.tox/
+.nox/
+coverage/
+coverage.xml
+.coverage
+.coverage.*
+*.cover
+.cache
+nosetests.xml
+.hypothesis/
+.pytest_cache/
+.pytest-queries
+.scannerwork/
+*.debug.log
+
+# -----------------------------------------------------------------------------
+# DOCKER
+# -----------------------------------------------------------------------------
+docker-compose.override.yml
+docker-compose.local.yml
+local.yml
+
+# -----------------------------------------------------------------------------
+# ENVIRONMENTS
+# -----------------------------------------------------------------------------
+
+ENV/
+env/
+env.bak/
+env_*/
+env3/
+venv/
+venv.bak/
+.env/
+.venv/
+
+# Physical quantities module (Valispace version)
+src/pint
+
+# Documentation
+docs/build
+_build
+_autosummary
