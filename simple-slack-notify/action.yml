@@ -44,7 +44,7 @@ inputs:
     default: '[]'
 runs:
   using: 'node16'
-  main: 'src/index.js'
+  main: '${{ github.action_path }}/src/index.js'
 branding:
   icon: 'message-circle'
   color: 'orange'
