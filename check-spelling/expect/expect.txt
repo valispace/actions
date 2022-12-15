@@ -26,6 +26,7 @@ deltatime
 direnv
 doubleargument
 dsn
+healthcheck
 inlinevar
 ipynb
 isready
