@@ -1,0 +1,50 @@
+name: 'Simple Slack Notify'
+description: 'Slack notification action that just works'
+author: Valispace
+inputs:
+  channel:
+    description: "The channel you want to send to, such as '#general'"
+    required: false
+    default: ''
+  disable_eval:
+    description: 'Disable JS evaluation of strings'
+    required: false
+    default: ''
+  username:
+    description: 'Used to override the default username'
+    required: false
+    default: ''
+  color:
+    description: 'The color you want to use (can be `good`, `danger`, `warning` or a hex code)'
+    required: false
+    default: ''
+  status:
+    description: 'Pass the job status through and omit color for status based color'
+    required: false
+    default: ''
+  text:
+    description: 'The message that you want to send regardless of status'
+    required: false
+    default: ''
+  success_text:
+    description: 'The message to send if status is `success`'
+    required: false
+    default: ''
+  failure_text:
+    description: 'The message to send if status is `failure`'
+    required: false
+    default: ''
+  cancelled_text:
+    description: 'The message to send if status is `cancelled`'
+    required: false
+    default: ''
+  fields:
+    description: 'JSON string containing an array of fields to attach to the notification'
+    required: false
+    default: '[]'
+runs:
+  using: 'node16'
+  main: 'src/index.js'
+branding:
+  icon: 'message-circle'
+  color: 'orange'
