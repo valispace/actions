@@ -1,5 +1,5 @@
 name: 'Check Spelling'
-description: 'Spell check code and commits'
+description: 'Spell check code and commits within Valispace context'
 author: Valispace
 inputs:
   event_aliases:
