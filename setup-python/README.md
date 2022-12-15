@@ -1,6 +1,6 @@
 # Valispace setup-python Action
 
-This action extends [actions/setup-python](https://github.com/actions/setup-python) by installing packages `pkg-config`, `libxmlsec1-dev` and the given list of python requirements.
+This action extends [actions/setup-python](https://github.com/actions/setup-python) by installing packages `pkg-config`, `libxmlsec1-dev` and the given list of python requirements (optionally).
 
 _This is **not** intended to replace the original action!_
 
@@ -9,8 +9,6 @@ _This is **not** intended to replace the original action!_
 <!-- start usage -->
 ```yaml
 uses: valispace/actions/setup-python@master
-env:
-  GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
 with:
   # Version range or exact version of Python to use, using SemVer's version range syntax.
   # Required: false
@@ -24,6 +22,8 @@ with:
   # Required: false
   # Default: true
   python-install-requirements: true
+env:
+  GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
 ```
 <!-- end usage -->
 
