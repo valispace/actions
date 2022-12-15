@@ -126,7 +126,7 @@ jobs:
     - uses: valispace/actions/check-spelling@master
       id: 'spelling'
     - if: ${{ steps.spelling.outputs.followup }}
-      uses: actions/setup-python@v4
+      uses: valispace/actions/setup-python@master
 ```
 
 ## License
