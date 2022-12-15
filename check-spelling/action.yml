@@ -35,6 +35,8 @@ outputs:
 runs:
   using: composite
   steps:
+    - run: 'ls -lha ${{ github.action_path }}'
+      shell: bash
     - id: spelling
       uses: check-spelling/check-spelling@v0.0.21
       with:
