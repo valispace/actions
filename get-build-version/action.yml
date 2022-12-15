@@ -8,10 +8,10 @@ inputs:
     default: ''
 outputs:
   release:
-    description: 'Current release version (e.g. xx.yy)'
+    description: 'Current release version (e.g. `xx.yy`)'
     value: '${{ steps.release.outputs.version }}'
   version:
-    description: 'Current build version (e.g. xx.yy.zz)'
+    description: 'Current build version (e.g. `xx.yy.zz`)'
     value: '${{ steps.build.outputs.version }}'
 runs:
   using: composite
