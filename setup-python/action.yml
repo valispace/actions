@@ -7,7 +7,7 @@ inputs:
     required: false
     default: '3.9'
   python-requirements-file:
-    description: "Path to the python requirements file"
+    description: 'Path to the python requirements file'
     required: false
     default: 'requirements.txt'
   python-install-requirements:
@@ -16,13 +16,13 @@ inputs:
     default: 'true'
 outputs:
   python-path:
-    description: "The absolute path to the Python executable"
+    description: 'The absolute path to the Python executable'
     value: '${{ steps.python.outputs.python-path }}'
   python-version:
-    description: "The installed and configured Python version"
+    description: 'The installed and configured Python version'
     value: '${{ steps.python.outputs.python-version }}'
   cache-hit:
-    description: "A boolean value to indicate a cache entry was found"
+    description: 'A boolean value to indicate a cache entry was found'
     value: '${{ steps.python.outputs.cache-hit }}'
 runs:
   using: composite
