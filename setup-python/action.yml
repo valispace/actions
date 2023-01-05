@@ -36,11 +36,11 @@ runs:
         cache-dependency-path: '${{ inputs.python-requirements-file }}'
     - id: libxmlsec1-dev
       if: ${{ (inputs.python-install-requirements == 'true') }}
-      run: 'sudo apt-get --quiet update && sudo apt-get --quiet --no-install-recommends --assume-yes install pkg-config libxmlsec1-dev'
+      run: 'sudo apt-get --quiet update && sudo apt-get --quiet --no-install-recommends --assume-yes install pkg-config xmlsec1 libxmlsec1 libxmlsec1-dev'
       shell: bash
     - id: requirements
       if: ${{ (inputs.python-install-requirements == 'true') }}
-      run: 'pip install --exists-action w --requirement "${{ inputs.python-requirements-file }}"'
+      run: 'pip install --no-input --exists-action w --requirement "${{ inputs.python-requirements-file }}"'
       shell: bash
 branding:
   icon: 'code'
