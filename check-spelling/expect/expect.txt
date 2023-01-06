@@ -27,6 +27,7 @@ deltatime
 direnv
 doubleargument
 dsn
+EXPRUNIT
 healthcheck
 inlinevar
 ipynb
@@ -93,6 +94,7 @@ tml
 traitlets
 typecheck
 typevar
+UNITTOEXPR
 updateonbuild
 ureg
 uvicorn
