@@ -17,7 +17,7 @@ outputs:
     description: 'Current pre-release type (if defined) (e.g. `alpha`, `release-candidate`)'
     value: '${{ steps.pre-release.outputs.value }}'
   build-metadata:
-    description: 'Current build metadata (if defined) (e.g. `20230106171825`)'
+    description: 'Current build metadata (if defined) (e.g. `yyyymmddhhmmss`)'
     value: '${{ steps.build-metadata.outputs.value }}'
 runs:
   using: composite
