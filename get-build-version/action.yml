@@ -29,10 +29,10 @@ runs:
       run: 'echo "value=$( echo "$( grep --extended-regexp "version" "${{ inputs.file }}" | grep --only-matching --perl-regexp "(?P<major>(0|[1-9][0-9]*))\.(?P<minor>(0|[1-9][0-9]*))\.(?P<patch>(0|[1-9][0-9]*))" )" )" >> $GITHUB_OUTPUT'
       shell: bash
     - id: pre-release
-      run: 'echo "value=$( echo "$( grep --extended-regexp "version" "${{ inputs.file }}" | grep --only-matching --perl-regexp "(?P<pre-release>(alpha|release-candidate))?" )" )" >> $GITHUB_OUTPUT'
+      run: 'echo "value=$( echo "$( grep --extended-regexp "version" "${{ inputs.file }}" | grep --only-matching --perl-regexp "(?P<prerelease>(alpha|release-candidate))?" )" )" >> $GITHUB_OUTPUT'
       shell: bash
     - id: build-metadata
-      run: 'echo "value=$( echo "$( grep --extended-regexp "version" "${{ inputs.file }}" | grep --only-matching --perl-regexp "(?P<build-metadata>(?P<year>[0-9]{4})(?P<month>[0-9]{2})(?P<day>[0-9]{2})(?P<hour>[0-9]{2})(?P<minutes>[0-9]{2})(?P<seconds>[0-9]{2}))?" )" )" >> $GITHUB_OUTPUT'
+      run: 'echo "value=$( echo "$( grep --extended-regexp "version" "${{ inputs.file }}" | grep --only-matching --perl-regexp "(?P<buildmetadata>(?P<year>[0-9]{4})(?P<month>[0-9]{2})(?P<day>[0-9]{2})(?P<hour>[0-9]{2})(?P<minutes>[0-9]{2})(?P<seconds>[0-9]{2}))?" )" )" >> $GITHUB_OUTPUT'
       shell: bash
 branding:
   icon: 'help-circle'
