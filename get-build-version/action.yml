@@ -8,19 +8,31 @@ inputs:
     default: ''
 outputs:
   release:
-    description: 'Current release version (e.g. `xx.yy`)'
-    value: '${{ steps.release.outputs.version }}'
+    description: 'Current release version (e.g. `x.y`)'
+    value: '${{ steps.release.outputs.value }}'
   version:
-    description: 'Current build version (e.g. `xx.yy.zz`)'
-    value: '${{ steps.build.outputs.version }}'
+    description: 'Current build version (e.g. `x.y.z`)'
+    value: '${{ steps.build.outputs.value }}'
+  pre-release:
+    description: 'Current pre-release type (if defined) (e.g. `alpha`, `release-candidate`)'
+    value: '${{ steps.pre-release.outputs.value }}'
+  build-metadata:
+    description: 'Current build metadata (if defined) (e.g. `20230106171825`)'
+    value: '${{ steps.build-metadata.outputs.value }}'
 runs:
   using: composite
   steps:
     - id: release
-      run: 'echo "version=$( echo "$( grep --extended-regexp "version" "${{ inputs.file }}" | grep --only-matching --extended-regexp "([[:digit:]]+)[.]([[:digit:]]+)" )" )" >> $GITHUB_OUTPUT'
+      run: 'echo "value=$( echo "$( grep --extended-regexp "version" "${{ inputs.file }}" | grep --only-matching --perl-regexp "(?P<major>(0|[1-9][0-9]*))\.(?P<minor>(0|[1-9][0-9]*))" )" )" >> $GITHUB_OUTPUT'
       shell: bash
     - id: build
-      run: 'echo "version=$( echo "$( grep --extended-regexp "version" "${{ inputs.file }}" | grep --only-matching --extended-regexp "([[:digit:]]+)[.]([[:digit:]]+)[.]([[:digit:]]+)" )" )" >> $GITHUB_OUTPUT'
+      run: 'echo "value=$( echo "$( grep --extended-regexp "version" "${{ inputs.file }}" | grep --only-matching --perl-regexp "(?P<major>(0|[1-9][0-9]*))\.(?P<minor>(0|[1-9][0-9]*))\.(?P<patch>(0|[1-9][0-9]*))" )" )" >> $GITHUB_OUTPUT'
+      shell: bash
+    - id: pre-release
+      run: 'echo "value=$( echo "$( grep --extended-regexp "version" "${{ inputs.file }}" | grep --only-matching --perl-regexp "(?P<pre-release>(alpha|release-candidate))?" )" )" >> $GITHUB_OUTPUT'
+      shell: bash
+    - id: build-metadata
+      run: 'echo "value=$( echo "$( grep --extended-regexp "version" "${{ inputs.file }}" | grep --only-matching --perl-regexp "(?P<build-metadata>(?P<year>[0-9]{4})(?P<month>[0-9]{2})(?P<day>[0-9]{2})(?P<hour>[0-9]{2})(?P<minutes>[0-9]{2})(?P<seconds>[0-9]{2}))?" )" )" >> $GITHUB_OUTPUT'
       shell: bash
 branding:
   icon: 'help-circle'
