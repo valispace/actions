@@ -1,6 +1,6 @@
 # Valispace get-build-version Action
 
-Given a project versioning file, this action extracts the current release version, build version, pre-release type (if defined) and build metadata (if defined), as defined in the [Valispace Versioning Specification](https://valispace.atlassian.net/wiki/spaces/~62b97f79c9f2df7b608a092f/pages/2083324008/Valispace+Versioning+Specification) ( `major.minor.patch(-(alpha|release-candidate)+(YYYYMMDDhhmmss))?` ).
+Given a project versioning file, this action extracts the current release version, build version, pre-release type (if defined) and build metadata (if defined), as defined in the [Valispace Versioning Specification](https://valispace.atlassian.net/wiki/spaces/~62b97f79c9f2df7b608a092f/pages/2083324008/Valispace+Versioning+Specification) ( `major.minor.patch(-(alpha|release-candidate)+(epoch))?` ).
 
 _The versioning file must contain a line with keyword `version` (e.g. "`version = 1.0.0`") for this action to return a valid output!_
 
@@ -38,7 +38,7 @@ jobs:
 
 ### `version`
 
-**version** output contains the current build version (e.g. X.Y.Z(-(alpha|release-candidate)+(YYYYMMDDHHMMSS))?).
+**version** output contains the current build version (e.g. X.Y.Z(-(alpha|release-candidate)+(epoch))?).
 
 ```yaml
 jobs:
@@ -72,7 +72,7 @@ jobs:
 
 ### `build-metadata`
 
-**version** output contains the current build metadata (if defined) (e.g. YYYYMMDDHHMMSS).
+**version** output contains the current build metadata (if defined) (e.g. '1692107243').
 
 ```yaml
 jobs:
