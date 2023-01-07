@@ -9,7 +9,7 @@ inputs:
   python-requirements-file:
     description: 'Path to the python requirements file'
     required: false
-    default: 'requirements.txt'
+    default: ''
   python-install-requirements:
     description: 'Whether to install required packages and python requirements after setup'
     required: false
@@ -34,7 +34,7 @@ runs:
         python-version: '${{ inputs.python-version }}'
         cache: 'pip'
         cache-dependency-path: '${{ inputs.python-requirements-file }}'
-    - id: libxmlsec1-dev
+    - id: xmlsec1
       if: ${{ (inputs.python-install-requirements == 'true') }}
       run: 'sudo apt-get --quiet update && sudo apt-get --quiet --no-install-recommends --assume-yes install pkg-config xmlsec1 libxmlsec1 libxmlsec1-dev'
       shell: bash
