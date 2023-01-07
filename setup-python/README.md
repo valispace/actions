@@ -1,6 +1,6 @@
 # Valispace setup-python Action
 
-This action extends [actions/setup-python](https://github.com/actions/setup-python) by installing packages `pkg-config`, `libxmlsec1-dev` and the given list of python requirements (optionally).
+This action extends [actions/setup-python](https://github.com/actions/setup-python) by installing packages `pkg-config`, `xmlsec1`, `libxmlsec1`, `libxmlsec1-dev` and the given list of python requirements (optionally).
 
 _This is **not** intended to replace the original action!_
 
