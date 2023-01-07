@@ -1,0 +1,56 @@
+name: 'Bump build version'
+description: 'Bumps the build version'
+inputs:
+  major:
+    description: 'Update major version'
+    required: false
+    default: 'false'
+  minor:
+    description: 'Update minor version'
+    required: false
+    default: 'false'
+  patch:
+    description: 'Update patch version'
+    required: false
+    default: 'false'
+  pre-release:
+    description: 'Pre-release metadata ( accepts: 'alpha+YYYYMMDDhhmmss', 'release-candidate+YYYYMMDDhhmmss', '')'
+    required: false
+    default: 'NaN'
+  file:
+    description: 'Path to the versioning file'
+    required: true
+    default: ''
+runs:
+  using: composite
+  steps:
+    - id: python
+      if: ${{ (inputs.major == 'true') || (inputs.minor == 'true') || (inputs.patch == 'true') || (inputs.pre-release != 'NaN') }}
+      uses: valispace/actions/setup-python@master
+      with:
+        python-version: '${{ env.PYTHON_VERSION }}'
+        python-install-requirements: false
+    - id: bump2version
+      if: ${{ (inputs.major == 'true') || (inputs.minor == 'true') || (inputs.patch == 'true') || (inputs.pre-release != 'NaN') }}
+      run: 'pip install --no-input --upgrade bump2version'
+      shell: bash
+    - id: major
+      if: ${{ (inputs.major == 'true') }}
+      run: 'bump2version --no-commit --no-tag --current-version "$( grep --extended-regexp "version" "${{ inputs.file }}" | grep --only-matching --perl-regexp "(?P<major>(0|[1-9][0-9]*))\.(?P<minor>(0|[1-9][0-9]*))\.(?P<patch>(0|[1-9][0-9]*))(?:\-(?P<prerelease>(alpha|release-candidate)(?:\+(?P<buildmetadata>(?P<year>[0-9]{4})(?P<month>[0-9]{2})(?P<day>[0-9]{2})(?P<hour>[0-9]{2})(?P<minutes>[0-9]{2})(?P<seconds>[0-9]{2})))))?" )" --parse "(?P<major>(0|[1-9][0-9]*))\.(?P<minor>(0|[1-9][0-9]*))\.(?P<patch>(0|[1-9][0-9]*))(?:\-(?P<prerelease>(alpha|release-candidate)(?:\+(?P<buildmetadata>(?P<year>[0-9]{4})(?P<month>[0-9]{2})(?P<day>[0-9]{2})(?P<hour>[0-9]{2})(?P<minutes>[0-9]{2})(?P<seconds>[0-9]{2})))))?" --serialize "{major}.{minor}.{patch}" major --allow-dirty "${{ inputs.file }}"'
+      shell: bash
+    - id: minor
+      if: ${{ (inputs.minor == 'true') }}
+      run: 'bump2version --no-commit --no-tag --current-version "$( grep --extended-regexp "version" "${{ inputs.file }}" | grep --only-matching --perl-regexp "(?P<major>(0|[1-9][0-9]*))\.(?P<minor>(0|[1-9][0-9]*))\.(?P<patch>(0|[1-9][0-9]*))(?:\-(?P<prerelease>(alpha|release-candidate)(?:\+(?P<buildmetadata>(?P<year>[0-9]{4})(?P<month>[0-9]{2})(?P<day>[0-9]{2})(?P<hour>[0-9]{2})(?P<minutes>[0-9]{2})(?P<seconds>[0-9]{2})))))?" )" --parse "(?P<major>(0|[1-9][0-9]*))\.(?P<minor>(0|[1-9][0-9]*))\.(?P<patch>(0|[1-9][0-9]*))(?:\-(?P<prerelease>(alpha|release-candidate)(?:\+(?P<buildmetadata>(?P<year>[0-9]{4})(?P<month>[0-9]{2})(?P<day>[0-9]{2})(?P<hour>[0-9]{2})(?P<minutes>[0-9]{2})(?P<seconds>[0-9]{2})))))?" --serialize "{major}.{minor}.{patch}" minor --allow-dirty "${{ inputs.file }}"'
+      shell: bash
+    - id: patch
+      if: ${{ (inputs.patch == 'true') }}
+      run: 'bump2version --no-commit --no-tag --current-version "$( grep --extended-regexp "version" "${{ inputs.file }}" | grep --only-matching --perl-regexp "(?P<major>(0|[1-9][0-9]*))\.(?P<minor>(0|[1-9][0-9]*))\.(?P<patch>(0|[1-9][0-9]*))(?:\-(?P<prerelease>(alpha|release-candidate)(?:\+(?P<buildmetadata>(?P<year>[0-9]{4})(?P<month>[0-9]{2})(?P<day>[0-9]{2})(?P<hour>[0-9]{2})(?P<minutes>[0-9]{2})(?P<seconds>[0-9]{2})))))?" )" --parse "(?P<major>(0|[1-9][0-9]*))\.(?P<minor>(0|[1-9][0-9]*))\.(?P<patch>(0|[1-9][0-9]*))(?:\-(?P<prerelease>(alpha|release-candidate)(?:\+(?P<buildmetadata>(?P<year>[0-9]{4})(?P<month>[0-9]{2})(?P<day>[0-9]{2})(?P<hour>[0-9]{2})(?P<minutes>[0-9]{2})(?P<seconds>[0-9]{2})))))?" --serialize "{major}.{minor}.{patch}" patch --allow-dirty "${{ inputs.file }}"'
+      shell: bash
+    - id: pre-release
+      if: ${{ contains(inputs.pre-release, 'alpha') || contains(inputs.pre-release, 'release-candidate') }}
+      run: 'bump2version --no-commit --no-tag --current-version "$( grep --extended-regexp "version" "${{ inputs.file }}" | grep --only-matching --perl-regexp "(?P<major>(0|[1-9][0-9]*))\.(?P<minor>(0|[1-9][0-9]*))\.(?P<patch>(0|[1-9][0-9]*))(?:\-(?P<prerelease>(alpha|release-candidate)(?:\+(?P<buildmetadata>(?P<year>[0-9]{4})(?P<month>[0-9]{2})(?P<day>[0-9]{2})(?P<hour>[0-9]{2})(?P<minutes>[0-9]{2})(?P<seconds>[0-9]{2})))))?" )" --parse "(?P<major>(0|[1-9][0-9]*))\.(?P<minor>(0|[1-9][0-9]*))\.(?P<patch>(0|[1-9][0-9]*))(?:\-(?P<prerelease>(alpha|release-candidate)(?:\+(?P<buildmetadata>(?P<year>[0-9]{4})(?P<month>[0-9]{2})(?P<day>[0-9]{2})(?P<hour>[0-9]{2})(?P<minutes>[0-9]{2})(?P<seconds>[0-9]{2})))))?" --serialize "{major}.{minor}.{patch}-{prerelease}" --new-version "$( grep --extended-regexp "version" "${{ inputs.file }}" | grep --only-matching --perl-regexp "(?P<major>(0|[1-9][0-9]*))\.(?P<minor>(0|[1-9][0-9]*))\.(?P<patch>(0|[1-9][0-9]*))" )-${{ inputs.pre-release }}" prerelease --allow-dirty "${{ inputs.file }}"'
+      shell: bash
+    - id: release
+      if: ${{ (inputs.pre-release == '') }}
+      run: 'bump2version --no-commit --no-tag --current-version "$( grep --extended-regexp "version" "${{ inputs.file }}" | grep --only-matching --perl-regexp "(?P<major>(0|[1-9][0-9]*))\.(?P<minor>(0|[1-9][0-9]*))\.(?P<patch>(0|[1-9][0-9]*))(?:\-(?P<prerelease>(alpha|release-candidate)(?:\+(?P<buildmetadata>(?P<year>[0-9]{4})(?P<month>[0-9]{2})(?P<day>[0-9]{2})(?P<hour>[0-9]{2})(?P<minutes>[0-9]{2})(?P<seconds>[0-9]{2})))))?" )" --parse "(?P<major>(0|[1-9][0-9]*))\.(?P<minor>(0|[1-9][0-9]*))\.(?P<patch>(0|[1-9][0-9]*))(?:\-(?P<prerelease>(alpha|release-candidate)(?:\+(?P<buildmetadata>(?P<year>[0-9]{4})(?P<month>[0-9]{2})(?P<day>[0-9]{2})(?P<hour>[0-9]{2})(?P<minutes>[0-9]{2})(?P<seconds>[0-9]{2})))))?" --serialize "{major}.{minor}.{patch}" --new-version "$( grep --extended-regexp "version" "${{ inputs.file }}" | grep --only-matching --perl-regexp "(?P<major>(0|[1-9][0-9]*))\.(?P<minor>(0|[1-9][0-9]*))\.(?P<patch>(0|[1-9][0-9]*))" )" prerelease --allow-dirty "${{ inputs.file }}"'
+      shell: bash
