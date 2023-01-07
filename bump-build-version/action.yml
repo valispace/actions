@@ -14,7 +14,7 @@ inputs:
     required: false
     default: 'false'
   pre-release:
-    description: 'Pre-release metadata ( accepts: 'alpha+epoch', 'release-candidate+epoch', '')'
+    description: 'Pre-release metadata ( accepts: `alpha+epoch`, `release-candidate+epoch`, `` )'
     required: false
     default: 'NaN'
   file:
