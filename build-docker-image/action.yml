@@ -22,7 +22,7 @@ runs:
   using: composite
   steps:
     - id: build
-      run: 'docker build --tag ${{ inputs.name }}:latest --file "${{ inputs.dockerfile }}" .'
+      run: 'docker build --tag ${{ inputs.name }}:latest --label "version=${{ inputs.tag }}" --file "${{ inputs.dockerfile }}" .'
       shell: bash
     - id: tag
       run: 'docker tag ${{ inputs.name }}:latest ${{ inputs.name }}:${{ inputs.tag }}'
