@@ -1,6 +1,6 @@
 # Valispace get-build-version Action
 
-Given a project versioning file, this action extracts the current release version, build version, pre-release type (if defined) and build metadata (if defined).
+Given a project versioning file, this action extracts the current release version, build version, pre-release type (if defined) and build metadata (if defined), as defined in the [Valispace Versioning Specification](https://valispace.atlassian.net/wiki/spaces/~62b97f79c9f2df7b608a092f/pages/2083324008/Valispace+Versioning+Specification) ( `major.minor.patch(-(alpha|release-candidate)+(YYYYMMDDhhmmss))?` ).
 
 _The versioning file must contain a line with keyword `version` (e.g. "`version = 1.0.0`") for this action to return a valid output!_
 
@@ -86,12 +86,6 @@ jobs:
           file: '__init__.py'
       - run: 'echo "BUILD-METADATA : ${{ steps.versioning.outputs.build-metadata }}"'
 ```
-
-## Versioning
-
-[Valispace](https://github.com/valispace) follows the Semantic Versioning Specification (SemVer) defined at [Semantic Versioning.org](https://semver.org/), adapted for our own context.
-
-In short, we name our versions as `major.minor.patch(-(alpha|release-candidate)+(YYYYMMDDHHMMSS))?`.
 
 ## License
 
