@@ -2,7 +2,7 @@
 
 Given a project versioning file, this action extracts the current release version, build version, pre-release type (if defined) and build metadata (if defined).
 
-The versioning file must contain a line with keyword `version` (e.g. "`version = 1.0.0`") for this action to return a valid output!
+_The versioning file must contain a line with keyword `version` (e.g. "`version = 1.0.0`") for this action to return a valid output!_
 
 ## Usage
 
@@ -38,7 +38,7 @@ jobs:
 
 ### `version`
 
-**version** output contains the current build version (e.g. X.Y.Z).
+**version** output contains the current build version (e.g. X.Y.Z(-(alpha|release-candidate)+(YYYYMMDDHHMMSS))?).
 
 ```yaml
 jobs:
