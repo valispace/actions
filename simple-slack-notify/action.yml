@@ -3,7 +3,7 @@ description: 'Slack notification action that just works'
 author: Valispace
 inputs:
   channel:
-    description: "The channel you want to send to, such as '#general'"
+    description: 'The channel you want to send to, such as `#general`'
     required: false
     default: ''
   disable_eval:
