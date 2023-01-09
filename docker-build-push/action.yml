@@ -80,7 +80,7 @@ runs:
       with:
         context: '${{ inputs.context }}'
         file: '${{ inputs.dockerfile }}'
-        output: 'type=image'
+        outputs: 'type=image'
         labels: ${{ inputs.labels }}
         tags: ${{ inputs.tags }}
     - id: push
@@ -89,7 +89,7 @@ runs:
       with:
         context: '${{ inputs.context }}'
         file: '${{ inputs.dockerfile }}'
-        output: 'type=registry'
+        outputs: 'type=registry'
         labels: ${{ inputs.labels }}
         tags: ${{ inputs.tags }}
     - id: save
@@ -98,6 +98,6 @@ runs:
       with:
         context: '${{ inputs.context }}'
         file: '${{ inputs.dockerfile }}'
-        output: 'type=docker,dest=${{ inputs.archive }}'
+        outputs: 'type=docker,dest=${{ inputs.archive }}'
         labels: ${{ inputs.labels }}
         tags: ${{ inputs.tags }}
