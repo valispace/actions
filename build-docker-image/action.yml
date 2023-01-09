@@ -1,6 +1,6 @@
 name: 'Build docker image'
 description: 'Builds a docker image of this application'
-author: Valispace
+author: 'Valispace'
 inputs:
   name:
     description: 'Name for the docker image'
