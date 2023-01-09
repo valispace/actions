@@ -1,6 +1,6 @@
 name: 'Get build version'
 description: 'Returns the current build version'
-author: Valispace
+author: 'Valispace'
 inputs:
   file:
     description: 'Path to the versioning file'
