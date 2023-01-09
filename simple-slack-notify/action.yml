@@ -1,6 +1,9 @@
 name: 'Simple Slack Notify'
 description: 'Slack notification action that just works'
 author: 'Valispace'
+branding:
+  icon: 'message-circle'
+  color: 'orange'
 inputs:
   channel:
     description: 'The channel you want to send to, such as `#general`'
@@ -45,6 +48,3 @@ inputs:
 runs:
   using: 'node16'
   main: 'dist/index.js'
-branding:
-  icon: 'message-circle'
-  color: 'orange'
