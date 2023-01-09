@@ -1,5 +1,5 @@
 name: 'Build and push Docker image'
-description: 'Builds a Docker image with Buildx and push`s it to a Docker registry'
+description: 'Builds a Docker image with Buildx and push`s it (optional) to a Docker registry'
 author: 'Valispace'
 branding:
   icon: 'anchor'
@@ -75,7 +75,15 @@ runs:
         password: '${{ inputs.password }}'
         logout: ${{ inputs.logout }}
         ecr: '${{ inputs.ecr }}'
-    - id: build-push
+    - id: build
+      uses: docker/build-push-action@v3
+      with:
+        context: '${{ inputs.context }}'
+        file: '${{ inputs.dockerfile }}'
+        output: 'type=image'
+        labels: ${{ inputs.labels }}
+        tags: ${{ inputs.tags }}
+    - id: push
       if: ${{ (inputs.push == 'true') }}
       uses: docker/build-push-action@v3
       with:
@@ -84,7 +92,7 @@ runs:
         output: 'type=registry'
         labels: ${{ inputs.labels }}
         tags: ${{ inputs.tags }}
-    - id: build-save
+    - id: save
       if: ${{ (inputs.save == 'true') }}
       uses: docker/build-push-action@v3
       with:
