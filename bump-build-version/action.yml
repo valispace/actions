@@ -1,5 +1,9 @@
 name: 'Bump build version'
 description: 'Bumps the build version'
+author: 'Valispace'
+branding:
+  icon: 'help-circle'
+  color: 'orange'
 inputs:
   major:
     description: 'Update major version'
