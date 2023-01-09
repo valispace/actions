@@ -55,10 +55,21 @@ with:
   # Default: ''
   labels: |
     version=1.0.0
-  # List of tags.
+  # List of tags to use on Docker image build
   # Required: false
-  # Default: 'latest'
-  tags: |
+  # Default: ''
+  build-tags: |
+    valispace/vali:latest
+    valispace/vali:1.0.0
+  # List of tags to use on Docker image push to Docker registry
+  # Required: false
+  # Default: ''
+  push-tags: |
+    ghcr.io/valispace/vali:develop
+  # List of tags to use on Docker image specification tarball creation
+  # Required: false
+  # Default: ''
+  save-tags: |
     valispace/vali:latest
     valispace/vali:1.0.0
 ```

@@ -49,8 +49,16 @@ inputs:
     description: 'List of metadata for an image'
     required: false
     default: ''
-  tags:
-    description: 'List of tags'
+  build-tags:
+    description: 'List of tags to use on Docker image build'
+    required: false
+    default: ''
+  push-tags:
+    description: 'List of tags to use on Docker image push to Docker registry'
+    required: false
+    default: ''
+  save-tags:
+    description: 'List of tags to use on Docker image specification tarball creation'
     required: false
     default: ''
 outputs:
@@ -82,7 +90,7 @@ runs:
         file: '${{ inputs.dockerfile }}'
         outputs: 'type=image'
         labels: ${{ inputs.labels }}
-        tags: ${{ inputs.tags }}
+        tags: ${{ inputs.build-tags }}
     - id: push
       if: ${{ (inputs.push == 'true') }}
       uses: docker/build-push-action@v3
@@ -91,7 +99,7 @@ runs:
         file: '${{ inputs.dockerfile }}'
         outputs: 'type=registry'
         labels: ${{ inputs.labels }}
-        tags: ${{ inputs.tags }}
+        tags: ${{ inputs.push-tags }}
     - id: save
       if: ${{ (inputs.save == 'true') }}
       uses: docker/build-push-action@v3
@@ -100,4 +108,4 @@ runs:
         file: '${{ inputs.dockerfile }}'
         outputs: 'type=docker,dest=${{ inputs.archive }}'
         labels: ${{ inputs.labels }}
-        tags: ${{ inputs.tags }}
+        tags: ${{ inputs.save-tags }}
