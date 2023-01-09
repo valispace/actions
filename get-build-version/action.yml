@@ -14,7 +14,7 @@ outputs:
     description: 'Current release version (e.g. `x.y`)'
     value: '${{ steps.release.outputs.value }}'
   version:
-    description: 'Current build version (e.g. `x.y.z(-(alpha|release-candidate)+(epoch))?`)'
+    description: 'Current build version (e.g. `x.y.z(-(alpha|release-candidate)-(epoch))?`)'
     value: '${{ steps.build.outputs.value }}'
   pre-release:
     description: 'Current pre-release type (if defined) (e.g. `alpha`, `release-candidate`, ``)'
@@ -29,7 +29,7 @@ runs:
       run: 'echo "value=$( echo "$( grep --extended-regexp "version" "${{ inputs.file }}" | grep --only-matching --perl-regexp "(?P<major>(0|[1-9][0-9]*))\.(?P<minor>(0|[1-9][0-9]*))" )" )" >> $GITHUB_OUTPUT'
       shell: bash
     - id: build
-      run: 'echo "value=$( echo "$( grep --extended-regexp "version" "${{ inputs.file }}" | grep --only-matching --perl-regexp "(?P<major>(0|[1-9][0-9]*))\.(?P<minor>(0|[1-9][0-9]*))\.(?P<patch>(0|[1-9][0-9]*))(?:\-(?P<prerelease>(alpha|release-candidate)(?:\+(?P<buildmetadata>([0-9]{10,})))))?" )" )" >> $GITHUB_OUTPUT'
+      run: 'echo "value=$( echo "$( grep --extended-regexp "version" "${{ inputs.file }}" | grep --only-matching --perl-regexp "(?P<major>(0|[1-9][0-9]*))\.(?P<minor>(0|[1-9][0-9]*))\.(?P<patch>(0|[1-9][0-9]*))(?:\-(?P<prerelease>(alpha|release-candidate)(?:\-(?P<buildmetadata>([0-9]{10,})))))?" )" )" >> $GITHUB_OUTPUT'
       shell: bash
     - id: pre-release
       run: 'echo "value=$( echo "$( grep --extended-regexp "version" "${{ inputs.file }}" | grep --only-matching --perl-regexp "(?P<prerelease>(alpha|release-candidate))?" )" )" >> $GITHUB_OUTPUT'
