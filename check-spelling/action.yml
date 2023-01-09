@@ -1,6 +1,6 @@
 name: 'Check Spelling'
 description: 'Spell check code and commits within Valispace context'
-author: Valispace
+author: 'Valispace'
 inputs:
   event_aliases:
     description: 'Try to treat a GitHub event "a" as GitHub event "b" (JSON map)'
