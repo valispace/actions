@@ -30,7 +30,7 @@ inputs:
     required: false
     default: 'auto'
   save:
-    description: 'Save is a shorthand for `--output=type=docker,dest=${{ inputs.archive }}`'
+    description: 'Save is a shorthand for `--output=type=docker,dest=`'
     required: false
     default: 'false'
   archive:

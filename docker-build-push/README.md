@@ -34,7 +34,7 @@ with:
   # Required: false
   # Default: 'auto'
   ecr: 'auto'
-  # Save is a shorthand for `--output=type=docker,dest=`${{ inputs.archive }}`'
+  # Save is a shorthand for `--output=type=docker,dest=`'
   # Required: false
   # Default: 'false'
   save: true
