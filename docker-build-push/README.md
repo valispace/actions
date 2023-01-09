@@ -53,13 +53,14 @@ with:
   # List of metadata for an image.
   # Required: false
   # Default: ''
-  labels: 'version=1.0.0'
+  labels: |
+    version=1.0.0
   # List of tags.
   # Required: false
   # Default: 'latest'
   tags: |
-    'valispace/vali:latest'
-    'valispace/vali:1.0.0'
+    valispace/vali:latest
+    valispace/vali:1.0.0
 ```
 <!-- end usage -->
 
