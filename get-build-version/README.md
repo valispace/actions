@@ -55,7 +55,7 @@ jobs:
 
 ### `pre-release`
 
-**version** output contains the current pre-release type (if defined) (e.g. 'alpha', 'release-candidate').
+**version** output contains the current pre-release type (if defined) (e.g. 'alpha', 'release-candidate', '').
 
 ```yaml
 jobs:
@@ -72,7 +72,7 @@ jobs:
 
 ### `build-metadata`
 
-**version** output contains the current build metadata (if defined) (e.g. '1692107243').
+**version** output contains the current build metadata (if defined) (e.g. '1692107243', '').
 
 ```yaml
 jobs:

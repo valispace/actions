@@ -1,6 +1,9 @@
 name: 'Get build version'
 description: 'Returns the current build version'
 author: 'Valispace'
+branding:
+  icon: 'help-circle'
+  color: 'orange'
 inputs:
   file:
     description: 'Path to the versioning file'
@@ -14,10 +17,10 @@ outputs:
     description: 'Current build version (e.g. `x.y.z(-(alpha|release-candidate)+(epoch))?`)'
     value: '${{ steps.build.outputs.value }}'
   pre-release:
-    description: 'Current pre-release type (if defined) (e.g. `alpha`, `release-candidate`)'
+    description: 'Current pre-release type (if defined) (e.g. `alpha`, `release-candidate`, ``)'
     value: '${{ steps.pre-release.outputs.value }}'
   build-metadata:
-    description: 'Current build metadata (if defined) (e.g. `1692107243`)'
+    description: 'Current build metadata (if defined) (e.g. `1692107243`, ``)'
     value: '${{ steps.build-metadata.outputs.value }}'
 runs:
   using: composite
@@ -34,6 +37,3 @@ runs:
     - id: build-metadata
       run: 'echo "value=$( echo "$( grep --extended-regexp "version" "${{ inputs.file }}" | grep --only-matching --perl-regexp "(?P<buildmetadata>([0-9]{10,}))?" )" )" >> $GITHUB_OUTPUT'
       shell: bash
-branding:
-  icon: 'help-circle'
-  color: 'orange'
