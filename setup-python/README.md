@@ -22,8 +22,6 @@ with:
   # Required: false
   # Default: true
   python-install-requirements: true
-env:
-  GITHUB_TOKEN: '${{ env.GITHUB_TOKEN }}'
 ```
 <!-- end usage -->
 

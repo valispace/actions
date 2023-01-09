@@ -30,7 +30,6 @@ runs:
     - id: python
       uses: actions/setup-python@v4
       with:
-        token: '${{ env.GITHUB_TOKEN }}'
         python-version: '${{ inputs.python-version }}'
         cache: 'pip'
         cache-dependency-path: '${{ inputs.python-requirements-file }}'
