@@ -10,6 +10,11 @@ _This is **not** intended to replace the original actions!_
 ```yaml
 uses: valispace/actions/docker-build-push@master
 with:
+  save: true
+  # Docker image specification tarball name (must include `tar.gz` extension).
+  # Required: false
+  # Default: '${{ github.event.repository.name }}-docker.tar.gz'
+  archive: '${{ github.event.repository.name }}-docker.tar.gz'
   # Push is a shorthand for `--output=type=registry`'
   # Required: false
   # Default: 'false'
@@ -37,11 +42,6 @@ with:
   # Save is a shorthand for `--output=type=docker,dest=`'
   # Required: false
   # Default: 'false'
-  save: true
-  # Docker image specification tarball name (must include `tar.gz` extension).
-  # Required: false
-  # Default: '${{ github.event.repository.name }}-docker.tar.gz'
-  archive: '${{ github.event.repository.name }}-docker.tar.gz'
   # Build's context is the set of files located in the specified PATH or URL.
   # Required: false
   # Default: '.'

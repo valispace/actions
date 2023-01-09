@@ -5,6 +5,14 @@ branding:
   icon: 'anchor'
   color: 'orange'
 inputs:
+  save:
+    description: 'Save is a shorthand for `--output=type=docker,dest=`'
+    required: false
+    default: 'false'
+  archive:
+    description: 'Docker image specification tarball name (must include `tar.gz` extension)'
+    required: false
+    default: '${{ github.event.repository.name }}-docker.tar.gz'
   push:
     description: 'Push is a shorthand for `--output=type=registry`'
     required: false
@@ -29,14 +37,6 @@ inputs:
     description: 'Specifies whether the given registry is ECR (`auto`, `true` or `false`)'
     required: false
     default: 'auto'
-  save:
-    description: 'Save is a shorthand for `--output=type=docker,dest=`'
-    required: false
-    default: 'false'
-  archive:
-    description: 'Docker image specification tarball name (must include `tar.gz` extension)'
-    required: false
-    default: '${{ github.event.repository.name }}-docker.tar.gz'
   context:
     description: 'Build`s context is the set of files located in the specified PATH or URL'
     required: false
@@ -91,15 +91,6 @@ runs:
         outputs: 'type=image'
         labels: ${{ inputs.labels }}
         tags: ${{ inputs.build-tags }}
-    - id: push
-      if: ${{ (inputs.push == 'true') }}
-      uses: docker/build-push-action@v3
-      with:
-        context: '${{ inputs.context }}'
-        file: '${{ inputs.dockerfile }}'
-        outputs: 'type=registry'
-        labels: ${{ inputs.labels }}
-        tags: ${{ inputs.push-tags }}
     - id: save
       if: ${{ (inputs.save == 'true') }}
       uses: docker/build-push-action@v3
@@ -109,3 +100,12 @@ runs:
         outputs: 'type=docker,dest=${{ inputs.archive }}'
         labels: ${{ inputs.labels }}
         tags: ${{ inputs.save-tags }}
+    - id: push
+      if: ${{ (inputs.push == 'true') }}
+      uses: docker/build-push-action@v3
+      with:
+        context: '${{ inputs.context }}'
+        file: '${{ inputs.dockerfile }}'
+        outputs: 'type=registry'
+        labels: ${{ inputs.labels }}
+        tags: ${{ inputs.push-tags }}
