@@ -10,7 +10,7 @@ _This is **not** intended to replace the original actions!_
 ```yaml
 uses: valispace/actions/docker-build-push@master
 with:
-  # Push is a shorthand for --output=type=registry'
+  # Push is a shorthand for `--output=type=registry`'
   # Required: false
   # Default: 'false'
   push: true
@@ -34,24 +34,32 @@ with:
   # Required: false
   # Default: 'auto'
   ecr: 'auto'
-  # List of tags.
+  # Save is a shorthand for `--output=type=docker,dest=`${{ inputs.archive }}`'
   # Required: false
-  # Default: 'latest'
-  tags: |
-    valispace/vali:latest
-    valispace/vali:1.0.0
-  # List of metadata for an image.
+  # Default: 'false'
+  save: true
+  # Docker image specification tarball name (must include `tar.gz` extension).
   # Required: false
-  # Default: ''
-  labels: 'version=1.0.0'
-  # Path to the Dockerfile.
-  # Required: false
-  # Default: ''
-  file: 'Dockerfile'
+  # Default: '${{ github.event.repository.name }}-docker.tar.gz'
+  archive: '${{ github.event.repository.name }}-docker.tar.gz'
   # Build's context is the set of files located in the specified PATH or URL.
   # Required: false
   # Default: '.'
   context: '.'
+  # Path to the Dockerfile.
+  # Required: false
+  # Default: ''
+  dockerfile: 'Dockerfile'
+  # List of metadata for an image.
+  # Required: false
+  # Default: ''
+  labels: 'version=1.0.0'
+  # List of tags.
+  # Required: false
+  # Default: 'latest'
+  tags: |
+    'valispace/vali:latest'
+    'valispace/vali:1.0.0'
 ```
 <!-- end usage -->
 
