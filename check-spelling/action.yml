@@ -1,6 +1,9 @@
 name: 'Check Spelling'
 description: 'Spell check code and commits within Valispace context'
 author: 'Valispace'
+branding:
+  icon: 'edit-3'
+  color: 'orange'
 inputs:
   event_aliases:
     description: 'Try to treat a GitHub event "a" as GitHub event "b" (JSON map)'
@@ -80,6 +83,3 @@ runs:
           cspell:css/css.txt
           cspell:fonts/fonts.txt
           cspell:filetypes/filetypes.txt
-branding:
-  icon: 'edit-3'
-  color: 'orange'
