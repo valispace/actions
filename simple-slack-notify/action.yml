@@ -1,6 +1,6 @@
 name: 'Simple Slack Notify'
 description: 'Slack notification action that just works'
-author: Valispace
+author: 'Valispace'
 inputs:
   channel:
     description: 'The channel you want to send to, such as `#general`'
