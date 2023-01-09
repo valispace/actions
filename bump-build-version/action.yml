@@ -5,6 +5,10 @@ branding:
   icon: 'help-circle'
   color: 'orange'
 inputs:
+  file:
+    description: 'Path to the versioning file'
+    required: true
+    default: ''
   major:
     description: 'Update major version'
     required: false
@@ -21,10 +25,6 @@ inputs:
     description: 'Pre-release metadata ( accepts: `alpha-epoch`, `release-candidate-epoch`, `` )'
     required: false
     default: 'NaN'
-  file:
-    description: 'Path to the versioning file'
-    required: true
-    default: ''
 runs:
   using: composite
   steps:
