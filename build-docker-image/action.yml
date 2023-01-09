@@ -1,6 +1,9 @@
 name: 'Build docker image'
 description: 'Builds a docker image of this application'
 author: 'Valispace'
+branding:
+  icon: 'anchor'
+  color: 'orange'
 inputs:
   name:
     description: 'Name for the docker image'
@@ -33,6 +36,3 @@ runs:
     - id: test
       run: 'tar --list --ungzip --file "${{ inputs.archive }}" 1> /dev/null'
       shell: bash
-branding:
-  icon: 'anchor'
-  color: 'orange'
