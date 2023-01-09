@@ -23,7 +23,7 @@ with:
   # Default: true
   python-install-requirements: true
 env:
-  GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
+  GITHUB_TOKEN: '${{ env.GITHUB_TOKEN }}'
 ```
 <!-- end usage -->
 
