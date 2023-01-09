@@ -24,8 +24,8 @@ with:
   username: '${{ github.repository_owner }}'
   # Password or personal access token used to log against the Docker registry.
   # Required: false
-  # Default: '${{ env.GITHUB_TOKEN }}'
-  password: '${{ env.GITHUB_TOKEN }}'
+  # Default: '${{ github.token }}'
+  password: '${{ secrets.GITHUB_TOKEN }}'
   # Log out from the Docker registry at the end of a job.
   # Required: false
   # Default: 'true'

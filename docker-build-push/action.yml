@@ -17,7 +17,7 @@ inputs:
   password:
     description: 'Password or personal access token used to log against the Docker registry'
     required: false
-    default: '${{ env.GITHUB_TOKEN }}'
+    default: '${{ github.token }}'
   logout:
     description: 'Log out from the Docker registry at the end of a job'
     required: false
