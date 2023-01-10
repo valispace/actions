@@ -1,4 +1,4 @@
-# Valispace docker-build-push Action
+# Valispace docker-build-push-image Action
 
 This action extends [docker/build-push-action](https://github.com/docker/build-push-action) by combining it with action [docker/login-action](https://github.com/docker/login-action) and simplifying the inputs and outputs.
 
@@ -8,7 +8,7 @@ _This is **not** intended to replace the original actions!_
 
 <!-- start usage -->
 ```yaml
-uses: valispace/actions/docker-build-push@master
+uses: valispace/actions/docker-build-push-image@master
 with:
   save: true
   # Docker image specification tarball name (must include `tar.gz` extension).
