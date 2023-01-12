@@ -19,6 +19,7 @@ decibel-watt
 dimensionalities
 DRF
 EUR
+fxn
 GBP
 gnupg
 gunicorn

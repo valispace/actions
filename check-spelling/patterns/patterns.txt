@@ -235,4 +235,4 @@ sed 's/(?:[^/]*?[a-zA-Z]{3,}[^/]*?/){2}
 \bdeltadB\b
 
 # ignore 'tvv' word
-\btvv\b
+tvv

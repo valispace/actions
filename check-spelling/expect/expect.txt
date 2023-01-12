@@ -28,6 +28,7 @@ direnv
 doubleargument
 dsn
 EXPRUNIT
+Healthcheck
 healthcheck
 inlinevar
 ipynb
