@@ -1,0 +1,67 @@
+name: 'Build and upload application archive to AWS S3 bucket'
+description: 'Builds an application archive and upload`s it (optional) to an AWS S3 bucket'
+author: 'Valispace'
+branding:
+  icon: 'upload-cloud'
+  color: 'orange'
+inputs:
+  application:
+    description: 'Application to archive and upload (optional) (e.g. `backend`)'
+    required: true
+    default: ''
+  archive:
+    description: 'Archive name of the application (must include `tar.gz` extension)'
+    required: true
+    default: 'archive.tar.gz'
+  upload:
+    description: 'Upload archive to AWS S3 bucket'
+    required: false
+    default: 'false'
+  aws-secret-access-key:
+    description: 'AWS Secret Access Key'
+    required: true
+    default: ''
+  aws-access-key-id:
+    description: 'AWS Access Key ID'
+    required: true
+    default: ''
+  aws-region:
+    description: 'AWS Region (e.g. `eu-central-1`)'
+    required: false
+    default: 'eu-central-1'
+  aws-s3-bucket:
+    description: 'The AWS S3 bucket where to upload'
+    required: false
+    default: ''
+  aws-s3-repository:
+    description: 'The AWS S3 bucket repository (the name is case insensitive) where to upload'
+    required: false
+    default: ''
+  aws-s3-branch:
+    description: 'The AWS S3 bucket branch where to upload'
+    required: false
+    default: ''
+  aws-s3-tag:
+    description: 'The AWS S3 bucket tag where to upload'
+    required: false
+    default: 'latest'
+runs:
+  using: composite
+  steps:
+    - id: tar
+      run: 'tar --create --gzip --exclude-vcs --exclude-vcs-ignores --exclude-backups --exclude-caches --exclude-from ${{ inputs.application }}/.exclude --file ${{ inputs.archive }} --directory ${{ inputs.application }} $( cd ${{ inputs.application }} && find * -maxdepth 0 )'
+      shell: bash
+    - id: test
+      run: 'tar --list --ungzip --file "${{ inputs.archive }}" 1> /dev/null'
+      shell: bash
+    - id: credentials
+      if: ${{ (inputs.upload == 'true') }}
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-secret-access-key: '${{ inputs.aws-secret-access-key }}'
+        aws-access-key-id: '${{ inputs.aws-access-key-id }}'
+        aws-region: '${{ inputs.aws-region }}'
+    - id: upload
+      if: ${{ (inputs.upload == 'true') }}
+      run: 'aws s3 sync . "s3://${{ inputs.aws-s3-bucket }}/${{ inputs.aws-s3-repository }}/${{ inputs.aws-s3-branch }}/${{ inputs.aws-s3-tag }}" --exclude "*" --include "${{ inputs.archive }}"'
+      shell: bash
