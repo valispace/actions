@@ -1,6 +1,6 @@
 # Valispace get-build-version Action
 
-Given a project versioning file, this action extracts the current release version, build version, pre-release type (if defined) and build metadata (if defined), as defined in the [Valispace Versioning Specification](https://valispace.atlassian.net/wiki/spaces/~62b97f79c9f2df7b608a092f/pages/2083324008/Valispace+Versioning+Specification) ( `major.minor.patch(-(alpha|release-candidate)-(epoch))?` ).
+Given a project versioning file, this action extracts the current release version, build version, pre-release type (if defined) and pre-release metadata (if defined), as defined in the [Valispace Versioning Specification](https://valispace.atlassian.net/wiki/spaces/~62b97f79c9f2df7b608a092f/pages/2083324008/Valispace+Versioning+Specification) ( `major.minor.patch(-(alpha|release-candidate)-(epoch))?` ).
 
 _The versioning file must contain a line with keyword `version` (e.g. "`version = 1.0.0`") for this action to return a valid output!_
 
@@ -13,7 +13,7 @@ with:
   # Path to the versioning file.
   # Required: true
   # Default: ''
-  file: '__init__.py'
+  versioning-file: 'backend/vali/__init__.py'
 ```
 <!-- end usage -->
 
@@ -21,7 +21,7 @@ with:
 
 ### `release`
 
-**release** output contains the current release version (e.g. X.Y).
+**release** output contains the current release version (e.g. 'x.y').
 
 ```yaml
 jobs:
@@ -32,13 +32,13 @@ jobs:
       - uses: valispace/actions/get-build-version@master
         id: 'versioning'
         with:
-          file: '__init__.py'
+          versioning-file: '__init__.py'
       - run: 'echo "RELEASE : ${{ steps.versioning.outputs.release }}"'
 ```
 
 ### `version`
 
-**version** output contains the current build version (e.g. X.Y.Z(-(alpha|release-candidate)-(epoch))?).
+**version** output contains the current build version (e.g. 'x.y.z(-(alpha|release-candidate)-(epoch))?').
 
 ```yaml
 jobs:
@@ -49,11 +49,11 @@ jobs:
       - uses: valispace/actions/get-build-version@master
         id: 'versioning'
         with:
-          file: '__init__.py'
+          versioning-file: '__init__.py'
       - run: 'echo "VERSION : ${{ steps.versioning.outputs.version }}"'
 ```
 
-### `pre-release`
+### `pre-release-type`
 
 **version** output contains the current pre-release type (if defined) (e.g. 'alpha', 'release-candidate', '').
 
@@ -66,13 +66,13 @@ jobs:
       - uses: valispace/actions/get-build-version@master
         id: 'versioning'
         with:
-          file: '__init__.py'
-      - run: 'echo "PRE-RELEASE : ${{ steps.versioning.outputs.pre-release }}"'
+          versioning-file: '__init__.py'
+      - run: 'echo "PRE-RELEASE TYPE: ${{ steps.versioning.outputs.pre-release-type }}"'
 ```
 
-### `build-metadata`
+### `pre-release-metadata`
 
-**version** output contains the current build metadata (if defined) (e.g. '1692107243', '').
+**version** output contains the current pre-release metadata (if defined) (e.g. 'alpha-1692107243', 'release-candidate-1692112160', '').
 
 ```yaml
 jobs:
@@ -83,8 +83,8 @@ jobs:
       - uses: valispace/actions/get-build-version@master
         id: 'versioning'
         with:
-          file: '__init__.py'
-      - run: 'echo "BUILD-METADATA : ${{ steps.versioning.outputs.build-metadata }}"'
+          versioning-file: '__init__.py'
+      - run: 'echo "PRE-RELEASE METADATA : ${{ steps.versioning.outputs.pre-release-metadata }}"'
 ```
 
 ## License
