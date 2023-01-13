@@ -29,13 +29,13 @@ runs:
   using: composite
   steps:
     - id: check-required-inputs
-      run: >|
+      run: |
         if [ ( "${{ inputs.versioning-file }}" == "" ) ]; then
           echo "ERROR: Path to the versioning file is required!" && exit 1
         fi
       shell: bash
     - id: check-pre-release-metadata-input
-      run: >|
+      run: |
         if [ ( "${{ inputs.pre-release-metadata }}" != "NaN" ) && () ]; then
           if [ ( "${{ inputs.pre-release-metadata }}" == "" ) ]; then
             exit 0
