@@ -5,56 +5,74 @@ branding:
   icon: 'help-circle'
   color: 'orange'
 inputs:
-  file:
+  versioning-file:
     description: 'Path to the versioning file'
     required: true
     default: ''
-  major:
+  update-major-version:
     description: 'Update major version'
     required: false
     default: 'false'
-  minor:
+  update-minor-version:
     description: 'Update minor version'
     required: false
     default: 'false'
-  patch:
+  update-patch-version:
     description: 'Update patch version'
     required: false
     default: 'false'
-  pre-release:
-    description: 'Pre-release metadata ( accepts: `alpha-epoch`, `release-candidate-epoch`, `` )'
+  pre-release-metadata:
+    description: 'Pre-release metadata (only `alpha-epoch`, `release-candidate-epoch` or `` are allowed)'
     required: false
     default: 'NaN'
 runs:
   using: composite
   steps:
-    - id: python
-      if: ${{ (inputs.major == 'true') || (inputs.minor == 'true') || (inputs.patch == 'true') || (inputs.pre-release != 'NaN') }}
+    - id: check-required-inputs
+      run: >|
+        if [ ( "${{ inputs.versioning-file }}" == "" ) ]; then
+          echo "ERROR: Path to the versioning file is required!" && exit 1
+        fi
+      shell: bash
+    - id: check-pre-release-metadata-input
+      run: >|
+        if [ ( "${{ inputs.pre-release-metadata }}" != "NaN" ) && () ]; then
+          if [ ( "${{ inputs.pre-release-metadata }}" == "" ) ]; then
+            exit 0
+          elif [ $( grep --extended-regexp "version" "${{ inputs.versioning-file }}" | grep --only-matching --perl-regexp "(?P<prerelease>(alpha|release-candidate)(?:\-(?P<buildmetadata>([0-9]{10,}))))?" ) != "" ]; then
+            exit 0
+          else
+            echo "ERROR: Only `alpha-epoch`, `release-candidate-epoch` or `` are allowed as pre-release metadata!" && exit 1
+          fi
+        fi
+      shell: bash
+    - id: setup-python
+      if: ${{ (inputs.update-major-version == 'true') || (inputs.update-minor-version == 'true') || (inputs.update-patch-version == 'true') || (inputs.pre-release-metadata != 'NaN') }}
       uses: valispace/actions/setup-python@master
       with:
         python-version: '${{ env.PYTHON_VERSION }}'
         python-install-requirements: false
-    - id: bump2version
-      if: ${{ (inputs.major == 'true') || (inputs.minor == 'true') || (inputs.patch == 'true') || (inputs.pre-release != 'NaN') }}
+    - id: install-bump2version
+      if: ${{ (inputs.update-major-version == 'true') || (inputs.update-minor-version == 'true') || (inputs.update-patch-version == 'true') || (inputs.pre-release-metadata != 'NaN') }}
       run: 'pip install --no-input --upgrade bump2version'
       shell: bash
-    - id: major
-      if: ${{ (inputs.major == 'true') }}
-      run: 'bump2version --no-commit --no-tag --current-version "$( grep --extended-regexp "version" "${{ inputs.file }}" | grep --only-matching --perl-regexp "(?P<major>(0|[1-9][0-9]*))\.(?P<minor>(0|[1-9][0-9]*))\.(?P<patch>(0|[1-9][0-9]*))(?:\-(?P<prerelease>(alpha|release-candidate)(?:\-(?P<buildmetadata>([0-9]{10,})))))?" )" --parse "(?P<major>(0|[1-9][0-9]*))\.(?P<minor>(0|[1-9][0-9]*))\.(?P<patch>(0|[1-9][0-9]*))(?:\-(?P<prerelease>(alpha|release-candidate)(?:\-(?P<buildmetadata>([0-9]{10,})))))?" --serialize "{major}.{minor}.{patch}" major --allow-dirty "${{ inputs.file }}"'
+    - id: update-major-version
+      if: ${{ (inputs.update-major-version == 'true') }}
+      run: 'bump2version --no-commit --no-tag --current-version "$( grep --extended-regexp "version" "${{ inputs.versioning-file }}" | grep --only-matching --perl-regexp "(?P<major>(0|[1-9][0-9]*))\.(?P<minor>(0|[1-9][0-9]*))\.(?P<patch>(0|[1-9][0-9]*))(?:\-(?P<prerelease>(alpha|release-candidate)(?:\-(?P<buildmetadata>([0-9]{10,})))))?" )" --parse "(?P<major>(0|[1-9][0-9]*))\.(?P<minor>(0|[1-9][0-9]*))\.(?P<patch>(0|[1-9][0-9]*))(?:\-(?P<prerelease>(alpha|release-candidate)(?:\-(?P<buildmetadata>([0-9]{10,})))))?" --serialize "{major}.{minor}.{patch}" major --allow-dirty "${{ inputs.versioning-file }}"'
       shell: bash
-    - id: minor
-      if: ${{ (inputs.minor == 'true') }}
-      run: 'bump2version --no-commit --no-tag --current-version "$( grep --extended-regexp "version" "${{ inputs.file }}" | grep --only-matching --perl-regexp "(?P<major>(0|[1-9][0-9]*))\.(?P<minor>(0|[1-9][0-9]*))\.(?P<patch>(0|[1-9][0-9]*))(?:\-(?P<prerelease>(alpha|release-candidate)(?:\-(?P<buildmetadata>([0-9]{10,})))))?" )" --parse "(?P<major>(0|[1-9][0-9]*))\.(?P<minor>(0|[1-9][0-9]*))\.(?P<patch>(0|[1-9][0-9]*))(?:\-(?P<prerelease>(alpha|release-candidate)(?:\-(?P<buildmetadata>([0-9]{10,})))))?" --serialize "{major}.{minor}.{patch}" minor --allow-dirty "${{ inputs.file }}"'
+    - id: update-minor-version
+      if: ${{ (inputs.update-minor-version == 'true') }}
+      run: 'bump2version --no-commit --no-tag --current-version "$( grep --extended-regexp "version" "${{ inputs.versioning-file }}" | grep --only-matching --perl-regexp "(?P<major>(0|[1-9][0-9]*))\.(?P<minor>(0|[1-9][0-9]*))\.(?P<patch>(0|[1-9][0-9]*))(?:\-(?P<prerelease>(alpha|release-candidate)(?:\-(?P<buildmetadata>([0-9]{10,})))))?" )" --parse "(?P<major>(0|[1-9][0-9]*))\.(?P<minor>(0|[1-9][0-9]*))\.(?P<patch>(0|[1-9][0-9]*))(?:\-(?P<prerelease>(alpha|release-candidate)(?:\-(?P<buildmetadata>([0-9]{10,})))))?" --serialize "{major}.{minor}.{patch}" minor --allow-dirty "${{ inputs.versioning-file }}"'
       shell: bash
-    - id: patch
-      if: ${{ (inputs.patch == 'true') }}
-      run: 'bump2version --no-commit --no-tag --current-version "$( grep --extended-regexp "version" "${{ inputs.file }}" | grep --only-matching --perl-regexp "(?P<major>(0|[1-9][0-9]*))\.(?P<minor>(0|[1-9][0-9]*))\.(?P<patch>(0|[1-9][0-9]*))(?:\-(?P<prerelease>(alpha|release-candidate)(?:\-(?P<buildmetadata>([0-9]{10,})))))?" )" --parse "(?P<major>(0|[1-9][0-9]*))\.(?P<minor>(0|[1-9][0-9]*))\.(?P<patch>(0|[1-9][0-9]*))(?:\-(?P<prerelease>(alpha|release-candidate)(?:\-(?P<buildmetadata>([0-9]{10,})))))?" --serialize "{major}.{minor}.{patch}" patch --allow-dirty "${{ inputs.file }}"'
+    - id: update-patch-version
+      if: ${{ (inputs.update-patch-version == 'true') }}
+      run: 'bump2version --no-commit --no-tag --current-version "$( grep --extended-regexp "version" "${{ inputs.versioning-file }}" | grep --only-matching --perl-regexp "(?P<major>(0|[1-9][0-9]*))\.(?P<minor>(0|[1-9][0-9]*))\.(?P<patch>(0|[1-9][0-9]*))(?:\-(?P<prerelease>(alpha|release-candidate)(?:\-(?P<buildmetadata>([0-9]{10,})))))?" )" --parse "(?P<major>(0|[1-9][0-9]*))\.(?P<minor>(0|[1-9][0-9]*))\.(?P<patch>(0|[1-9][0-9]*))(?:\-(?P<prerelease>(alpha|release-candidate)(?:\-(?P<buildmetadata>([0-9]{10,})))))?" --serialize "{major}.{minor}.{patch}" patch --allow-dirty "${{ inputs.versioning-file }}"'
       shell: bash
-    - id: pre-release
-      if: ${{ contains(inputs.pre-release, 'alpha') || contains(inputs.pre-release, 'release-candidate') }}
-      run: 'bump2version --no-commit --no-tag --current-version "$( grep --extended-regexp "version" "${{ inputs.file }}" | grep --only-matching --perl-regexp "(?P<major>(0|[1-9][0-9]*))\.(?P<minor>(0|[1-9][0-9]*))\.(?P<patch>(0|[1-9][0-9]*))(?:\-(?P<prerelease>(alpha|release-candidate)(?:\-(?P<buildmetadata>([0-9]{10,})))))?" )" --parse "(?P<major>(0|[1-9][0-9]*))\.(?P<minor>(0|[1-9][0-9]*))\.(?P<patch>(0|[1-9][0-9]*))(?:\-(?P<prerelease>(alpha|release-candidate)(?:\-(?P<buildmetadata>([0-9]{10,})))))?" --serialize "{major}.{minor}.{patch}-{prerelease}" --new-version "$( grep --extended-regexp "version" "${{ inputs.file }}" | grep --only-matching --perl-regexp "(?P<major>(0|[1-9][0-9]*))\.(?P<minor>(0|[1-9][0-9]*))\.(?P<patch>(0|[1-9][0-9]*))" )-${{ inputs.pre-release }}" prerelease --allow-dirty "${{ inputs.file }}"'
+    - id: update-pre-release-metadata
+      if: ${{ contains(inputs.pre-release-metadata, 'alpha') || contains(inputs.pre-release-metadata, 'release-candidate') }}
+      run: 'bump2version --no-commit --no-tag --current-version "$( grep --extended-regexp "version" "${{ inputs.versioning-file }}" | grep --only-matching --perl-regexp "(?P<major>(0|[1-9][0-9]*))\.(?P<minor>(0|[1-9][0-9]*))\.(?P<patch>(0|[1-9][0-9]*))(?:\-(?P<prerelease>(alpha|release-candidate)(?:\-(?P<buildmetadata>([0-9]{10,})))))?" )" --parse "(?P<major>(0|[1-9][0-9]*))\.(?P<minor>(0|[1-9][0-9]*))\.(?P<patch>(0|[1-9][0-9]*))(?:\-(?P<prerelease>(alpha|release-candidate)(?:\-(?P<buildmetadata>([0-9]{10,})))))?" --serialize "{major}.{minor}.{patch}-{prerelease}" --new-version "$( grep --extended-regexp "version" "${{ inputs.versioning-file }}" | grep --only-matching --perl-regexp "(?P<major>(0|[1-9][0-9]*))\.(?P<minor>(0|[1-9][0-9]*))\.(?P<patch>(0|[1-9][0-9]*))" )-${{ inputs.pre-release }}" prerelease --allow-dirty "${{ inputs.versioning-file }}"'
       shell: bash
-    - id: release
-      if: ${{ (inputs.pre-release == '') }}
-      run: 'bump2version --no-commit --no-tag --current-version "$( grep --extended-regexp "version" "${{ inputs.file }}" | grep --only-matching --perl-regexp "(?P<major>(0|[1-9][0-9]*))\.(?P<minor>(0|[1-9][0-9]*))\.(?P<patch>(0|[1-9][0-9]*))(?:\-(?P<prerelease>(alpha|release-candidate)(?:\-(?P<buildmetadata>([0-9]{10,})))))?" )" --parse "(?P<major>(0|[1-9][0-9]*))\.(?P<minor>(0|[1-9][0-9]*))\.(?P<patch>(0|[1-9][0-9]*))(?:\-(?P<prerelease>(alpha|release-candidate)(?:\-(?P<buildmetadata>([0-9]{10,})))))?" --serialize "{major}.{minor}.{patch}" --new-version "$( grep --extended-regexp "version" "${{ inputs.file }}" | grep --only-matching --perl-regexp "(?P<major>(0|[1-9][0-9]*))\.(?P<minor>(0|[1-9][0-9]*))\.(?P<patch>(0|[1-9][0-9]*))" )" prerelease --allow-dirty "${{ inputs.file }}"'
+    - id: update-release-metadata
+      if: ${{ (inputs.pre-release-metadata == '') }}
+      run: 'bump2version --no-commit --no-tag --current-version "$( grep --extended-regexp "version" "${{ inputs.versioning-file }}" | grep --only-matching --perl-regexp "(?P<major>(0|[1-9][0-9]*))\.(?P<minor>(0|[1-9][0-9]*))\.(?P<patch>(0|[1-9][0-9]*))(?:\-(?P<prerelease>(alpha|release-candidate)(?:\-(?P<buildmetadata>([0-9]{10,})))))?" )" --parse "(?P<major>(0|[1-9][0-9]*))\.(?P<minor>(0|[1-9][0-9]*))\.(?P<patch>(0|[1-9][0-9]*))(?:\-(?P<prerelease>(alpha|release-candidate)(?:\-(?P<buildmetadata>([0-9]{10,})))))?" --serialize "{major}.{minor}.{patch}" --new-version "$( grep --extended-regexp "version" "${{ inputs.versioning-file }}" | grep --only-matching --perl-regexp "(?P<major>(0|[1-9][0-9]*))\.(?P<minor>(0|[1-9][0-9]*))\.(?P<patch>(0|[1-9][0-9]*))" )" prerelease --allow-dirty "${{ inputs.versioning-file }}"'
       shell: bash

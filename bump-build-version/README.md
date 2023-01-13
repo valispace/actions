@@ -10,26 +10,26 @@ _The versioning file must contain a line with keyword `version` (e.g. "`version 
 ```yaml
 uses: valispace/actions/bump-build-version@master
 with:
-  # Update major version?
-  # Required: false
-  # Default: false
-  major: false
-  # Update minor version?
-  # Required: false
-  # Default: false
-  minor: false
-  # Update patch version?
-  # Required: false
-  # Default: false
-  patch: false
-  # Pre-release metadata ( accepts: 'alpha-epoch', 'release-candidate-epoch', '').
-  # Required: false
-  # Default: 'NaN'
-  pre-release: 'release-candidate-1692107243'
   # Path to the versioning file.
   # Required: true
   # Default: ''
-  file: '__init__.py'
+  versioning-file: 'backend/vali/__init__.py'
+  # Update major version?
+  # Required: false
+  # Default: false
+  update-major-version: false
+  # Update minor version?
+  # Required: false
+  # Default: false
+  update-minor-version: false
+  # Update patch version?
+  # Required: false
+  # Default: false
+  update-patch-version: false
+  # Pre-release metadata (only 'alpha-epoch', 'release-candidate-epoch' or '' are allowed).
+  # Required: false
+  # Default: 'NaN'
+  pre-release-metadata: 'release-candidate-1692107243'
 ```
 <!-- end usage -->
 
