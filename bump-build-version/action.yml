@@ -30,14 +30,14 @@ runs:
   steps:
     - id: check-required-inputs
       run: |
-        if [ ( "${{ inputs.versioning-file }}" == "" ) ]; then
+        if [ "${{ inputs.versioning-file }}" == "" ]; then
           echo "ERROR: Path to the versioning file is required!" && exit 1
         fi
       shell: bash
     - id: check-pre-release-metadata-input
       run: |
-        if [ ( "${{ inputs.pre-release-metadata }}" != "NaN" ) && () ]; then
-          if [ ( "${{ inputs.pre-release-metadata }}" == "" ) ]; then
+        if [ "${{ inputs.pre-release-metadata }}" != "NaN" ]; then
+          if [ "${{ inputs.pre-release-metadata }}" == "" ]; then
             exit 0
           elif [ $( grep --extended-regexp "version" "${{ inputs.versioning-file }}" | grep --only-matching --perl-regexp "(?P<prerelease>(alpha|release-candidate)(?:\-(?P<buildmetadata>([0-9]{10,}))))?" ) != "" ]; then
             exit 0
