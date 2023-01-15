@@ -28,7 +28,7 @@ runs:
     - id: check-required-inputs
       run: |
         if [ "${{ inputs.versioning-file }}" == "" ]; then
-          echo "::error title=${{ github.job }}::Path to the versioning file is required!" && exit 1;
+          echo "::error title=${{ github.job }}::Path to the versioning file is required!" && exit 1
         fi
       shell: bash
     - id: release
