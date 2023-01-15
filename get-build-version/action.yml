@@ -28,18 +28,18 @@ runs:
     - id: check-required-inputs
       run: |
         if [ "${{ inputs.versioning-file }}" == "" ]; then
-          echo "ERROR: Path to the versioning file is required!" && exit 1
+          echo "::error title=${{ github.job }}::Path to the versioning file is required!" && exit 1;
         fi
       shell: bash
-    # - id: release
-    #   run: 'echo "value=$( echo "$( grep --extended-regexp "version" "${{ inputs.versioning-file }}" | grep --only-matching --perl-regexp "(?P<major>(0|[1-9][0-9]*))\.(?P<minor>(0|[1-9][0-9]*))" )" )" >> $GITHUB_OUTPUT'
-    #   shell: bash
-    # - id: build
-    #   run: 'echo "value=$( echo "$( grep --extended-regexp "version" "${{ inputs.versioning-file }}" | grep --only-matching --perl-regexp "(?P<major>(0|[1-9][0-9]*))\.(?P<minor>(0|[1-9][0-9]*))\.(?P<patch>(0|[1-9][0-9]*))(?:\-(?P<prerelease>(alpha|release-candidate)(?:\-(?P<buildmetadata>([0-9]{10,})))))?" )" )" >> $GITHUB_OUTPUT'
-    #   shell: bash
-    # - id: pre-release-type
-    #   run: 'echo "value=$( echo "$( grep --extended-regexp "version" "${{ inputs.versioning-file }}" | grep --only-matching --perl-regexp "(?P<prerelease>(alpha|release-candidate))?" )" )" >> $GITHUB_OUTPUT'
-    #   shell: bash
-    # - id: pre-release-metadata
-    #   run: 'echo "value=$( echo "$( grep --extended-regexp "version" "${{ inputs.versioning-file }}" | grep --only-matching --perl-regexp "(?P<prerelease>(alpha|release-candidate)(?:\-(?P<buildmetadata>([0-9]{10,}))))?" )" )" >> $GITHUB_OUTPUT'
-    #   shell: bash
+    - id: release
+      run: 'echo "value=$( echo "$( grep --perl-regexp "(?P<version>(version))" "${{ inputs.versioning-file }}" | grep --only-matching --perl-regexp "(?P<release>(?P<major>(0|[1-9][0-9]*))\.(?P<minor>(0|[1-9][0-9]*)))" )" )" >> $GITHUB_OUTPUT'
+      shell: bash
+    - id: build
+      run: 'echo "value=$( echo "$( grep --perl-regexp "(?P<version>(version))" "${{ inputs.versioning-file }}" | grep --only-matching --perl-regexp "(?P<version>(?P<release>(?P<major>(0|[1-9][0-9]*))\.(?P<minor>(0|[1-9][0-9]*)))\.(?P<patch>(0|[1-9][0-9]*))(\-(?P<prereleasemetadata>(?P<prereleasetype>(alpha|release-candidate))\-(?P<epoch>([0-9]{10,}))))?)" )" )" >> $GITHUB_OUTPUT'
+      shell: bash
+    - id: pre-release-type
+      run: 'echo "value=$( echo "$( grep --perl-regexp "(?P<version>(version))" "${{ inputs.versioning-file }}" | grep --only-matching --perl-regexp "(?P<prereleasemetadata>(?P<prereleasetype>(alpha|release-candidate))\-(?P<epoch>([0-9]{10,})))?" | grep --only-matching --perl-regexp "(?P<prereleasetype>(alpha|release-candidate))?" )" )" >> $GITHUB_OUTPUT'
+      shell: bash
+    - id: pre-release-metadata
+      run: 'echo "value=$( echo "$( grep --perl-regexp "(?P<version>(version))" "${{ inputs.versioning-file }}" | grep --only-matching --perl-regexp "(?P<prereleasemetadata>(?P<prereleasetype>(alpha|release-candidate))\-(?P<epoch>([0-9]{10,})))?" )" )" >> $GITHUB_OUTPUT'
+      shell: bash
