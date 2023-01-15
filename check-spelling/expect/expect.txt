@@ -58,6 +58,8 @@ numprocesses
 pidfile
 pnt
 poc
+prereleasemetadata
+prereleasetype
 PRERUN
 prun
 pypackages
