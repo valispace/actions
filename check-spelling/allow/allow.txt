@@ -24,11 +24,13 @@ GBP
 gnupg
 gunicorn
 howto
+hypercorn
 indeterminations
 infinit
 JIRA
 kg
 kgs
+MATLAB
 mixing
 onsite
 parseable
@@ -44,6 +46,9 @@ valialgo
 validatetime
 validatin
 valiengine
+valifn
+valifn-octave
+valifn-python
 valiquantity
 valiquantities
 valis

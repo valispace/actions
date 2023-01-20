@@ -17,6 +17,7 @@ childlogdir
 cls
 configfile
 CONVERTTO
+corsheaders
 cov
 dast
 dateparser
@@ -27,6 +28,7 @@ deltatime
 direnv
 doubleargument
 dsn
+einfo
 EXPRUNIT
 Healthcheck
 healthcheck
@@ -35,6 +37,7 @@ ipynb
 isready
 kickstart
 lexer
+libxmlsec
 linted
 listofdependencies
 logbase
@@ -103,6 +106,7 @@ ureg
 uvicorn
 vectorize
 vectorized
+viewset
 vnorm
 vprod
 vsum
