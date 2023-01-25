@@ -46,7 +46,7 @@ runs:
         cache-dependency-path: '${{ inputs.python-requirements-file }}'
     - id: xmlsec1
       if: ${{ (inputs.python-install-requirements == 'true') }}
-      run: 'sudo apt-get --quiet update && sudo apt-get --quiet --no-install-recommends --assume-yes install pkg-config xmlsec1 libxmlsec1 libxmlsec1-dev'
+      run: 'sudo apt-get --quiet update && sudo apt-get --quiet --no-install-recommends --assume-yes install pkg-config xmlsec1 libxmlsec1 libxmlsec1-dev libxmlsec1-openssl'
       shell: bash
     - id: requirements
       if: ${{ (inputs.python-install-requirements == 'true') }}
