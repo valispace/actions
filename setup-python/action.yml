@@ -16,7 +16,7 @@ inputs:
   python-install-requirements:
     description: 'Whether to install required packages and python requirements after setup'
     required: false
-    default: 'true'
+    default: 'false'
 outputs:
   python-path:
     description: 'The absolute path to the Python executable'
@@ -30,6 +30,14 @@ outputs:
 runs:
   using: composite
   steps:
+    - id: check-required-inputs
+      run: |
+        if [ inputs.python-install-requirements == 'true' ]; then
+          if [ "${{ inputs.python-requirements-file }}" == "" ]; then
+            echo "::error title=${{ github.job }}::Path to the python requirements file is missing!" && exit 1
+          fi
+        fi
+      shell: bash
     - id: python
       uses: actions/setup-python@v4
       with:
