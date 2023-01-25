@@ -24,7 +24,7 @@ inputs:
   tags:
     description: 'List of tags'
     required: false
-    default: 'latest'
+    default: ''
 outputs:
   image-id:
     description: 'Image ID'
