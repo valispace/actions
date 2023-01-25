@@ -7215,10 +7215,12 @@ const core = __nccwpck_require__(2186)
 const { IncomingWebhook } = __nccwpck_require__(1095)
 
 try {
-  if (!process.env.SLACK_WEBHOOK_URL) {
-    throw new Error('SLACK_WEBHOOK_URL is not set!')
+
+  const webhook = envsubst(core.getInput('webhook'))
+  if (!webhook) {
+    throw new Error('webhook is not set!')
   }
-  const slack = new IncomingWebhook(process.env.SLACK_WEBHOOK_URL)
+  const slack = new IncomingWebhook(webhook)
 
   /* eslint-disable no-eval */
   const disableEval = !!core.getInput('disable_eval')

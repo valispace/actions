@@ -5,6 +5,10 @@ branding:
   icon: 'message-circle'
   color: 'orange'
 inputs:
+  webhook:
+    description: 'Unique URL to where the JSON payload with the message should be sent'
+    required: true
+    default: ''
   channel:
     description: 'The channel you want to send to, such as `#general`'
     required: false

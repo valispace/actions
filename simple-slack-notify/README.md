@@ -8,6 +8,10 @@ This is a fork from [adamkdean/simple-slack-notify](https://github.com/adamkdean
 ```yaml
 uses: valispace/actions/simple-slack-notify@master
 with:
+  # Unique URL to where the JSON payload with the message should be sent.
+  # Required: true
+  # Default: ''
+  webhook: '${{ secrets.SLACK_WEBHOOK_URL }}'
   # The channel you want to send to, such as '#general'.
   # Required: false
   # Default: ''
