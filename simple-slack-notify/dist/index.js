@@ -7216,17 +7216,12 @@ const { IncomingWebhook } = __nccwpck_require__(1095)
 
 try {
 
-  const webhook = envsubst(core.getInput('webhook'))
-  if (!webhook) {
-    throw new Error('webhook is not set!')
-  }
-  const slack = new IncomingWebhook(webhook)
-
   /* eslint-disable no-eval */
   const disableEval = !!core.getInput('disable_eval')
   const env = process.env // eslint-disable-line
   const envsubst = (str) => (disableEval ? str : eval(`\`${str}\``))
 
+  const webhook = envsubst(core.getInput('webhook'))
   const channel = envsubst(core.getInput('channel'))
   const username = envsubst(core.getInput('username'))
   const status = envsubst(core.getInput('status'))
@@ -7258,6 +7253,11 @@ try {
       text = cancelledText || 'No cancelled text specified.'
     }
   }
+
+  if (!webhook) {
+    throw new Error('webhook is not set!')
+  }
+  const slack = new IncomingWebhook(webhook)
 
   // Send the notification
   ;(async () => {
