@@ -22,7 +22,7 @@ inputs:
     required: false
     default: 'false'
   pre-release-metadata:
-    description: 'Pre-release metadata (only `alpha-epoch`, `release-candidate-epoch` or `` are allowed)'
+    description: 'Pre-release metadata (only `alpha-<epoch>`, `release-candidate-<epoch>` or `` are allowed)'
     required: false
     default: 'NaN'
 outputs:
@@ -30,7 +30,7 @@ outputs:
     description: 'The new release version (e.g. `x.y`)'
     value: '${{ steps.get-build-version.outputs.release }}'
   version:
-    description: 'The new build version (e.g. `x.y.z(-(alpha|release-candidate)-(epoch))?`)'
+    description: 'The new build version (e.g. `x.y.z(-(alpha|release-candidate)-(<epoch>))?`)'
     value: '${{ steps.get-build-version.outputs.version }}'
   pre-release-type:
     description: 'The new pre-release type (if defined) (e.g. `alpha`, `release-candidate`, ``)'
@@ -43,19 +43,19 @@ runs:
   steps:
     - id: check-required-inputs
       run: |
-        if [ "${{ inputs.versioning-file }}" == "" ]; then
+        if [[ "${{ inputs.versioning-file }}" == "" ]]; then
           echo "::error title=${{ github.job }}::Path to the versioning file is required!" && exit 1
         fi
       shell: bash
     - id: check-pre-release-metadata-input
       run: |
-        if [ "${{ inputs.pre-release-metadata }}" != "NaN" ]; then
-          if [ "${{ inputs.pre-release-metadata }}" == "" ]; then
+        if [[ "${{ inputs.pre-release-metadata }}" != "NaN" ]]; then
+          if [[ "${{ inputs.pre-release-metadata }}" == "" ]]; then
             exit 0
-          elif [ $( echo "${{ inputs.pre-release-metadata }}" | grep --only-matching --perl-regexp "(?P<prereleasemetadata>(?P<prereleasetype>(alpha|release-candidate))\-(?P<epoch>([0-9]{10,})))?" ) != "" ]; then
+          elif [[ $( echo "${{ inputs.pre-release-metadata }}" | grep --only-matching --perl-regexp "(?P<prereleasemetadata>(?P<prereleasetype>(alpha|release-candidate))\-(?P<epoch>([0-9]{10,})))?" ) != "" ]]; then
             exit 0
           else
-            echo "::error title=${{ github.job }}::Only 'alpha-epoch', 'release-candidate-epoch' or '' are allowed as pre-release metadata!" && exit 1
+            echo "::error title=${{ github.job }}::Only 'alpha-<epoch>', 'release-candidate-<epoch>' or '' are allowed as pre-release metadata!" && exit 1
           fi
         fi
       shell: bash
