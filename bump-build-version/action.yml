@@ -25,6 +25,19 @@ inputs:
     description: 'Pre-release metadata (only `alpha-epoch`, `release-candidate-epoch` or `` are allowed)'
     required: false
     default: 'NaN'
+outputs:
+  release:
+    description: 'The new release version (e.g. `x.y`)'
+    value: '${{ steps.get-build-version.outputs.release }}'
+  version:
+    description: 'The new build version (e.g. `x.y.z(-(alpha|release-candidate)-(epoch))?`)'
+    value: '${{ steps.get-build-version.outputs.version }}'
+  pre-release-type:
+    description: 'The new pre-release type (if defined) (e.g. `alpha`, `release-candidate`, ``)'
+    value: '${{ steps.get-build-version.outputs.pre-release-type }}'
+  pre-release-metadata:
+    description: 'The new pre-release metadata (if defined) (e.g. `alpha-1692107243`, `release-candidate-1692112160`, ``)'
+    value: '${{ steps.get-build-version.outputs.pre-release-metadata }}'
 runs:
   using: composite
   steps:
@@ -76,3 +89,7 @@ runs:
       if: ${{ (inputs.pre-release-metadata == '') }}
       run: 'bump2version --no-commit --no-tag --current-version "$( grep --perl-regexp "(?P<version>(version))" "${{ inputs.versioning-file }}" | grep --only-matching --perl-regexp "(?P<version>(?P<release>(?P<major>(0|[1-9][0-9]*))\.(?P<minor>(0|[1-9][0-9]*)))\.(?P<patch>(0|[1-9][0-9]*))(\-(?P<prereleasemetadata>(?P<prereleasetype>(alpha|release-candidate))\-(?P<epoch>([0-9]{10,}))))?)" )" --parse "(?P<version>(?P<release>(?P<major>(0|[1-9][0-9]*))\.(?P<minor>(0|[1-9][0-9]*)))\.(?P<patch>(0|[1-9][0-9]*))(\-(?P<prereleasemetadata>(?P<prereleasetype>(alpha|release-candidate))\-(?P<epoch>([0-9]{10,}))))?)" --serialize "{major}.{minor}.{patch}" --new-version "$( grep --perl-regexp "(?P<version>(version))" "${{ inputs.versioning-file }}" | grep --only-matching --perl-regexp "(?P<major>(0|[1-9][0-9]*))\.(?P<minor>(0|[1-9][0-9]*))\.(?P<patch>(0|[1-9][0-9]*))" )" prereleasemetadata --allow-dirty "${{ inputs.versioning-file }}"'
       shell: bash
+    - id: get-build-version
+      uses: valispace/actions/get-build-version@master
+      with:
+        versioning-file: '${{ inputs.versioning-file }}'
