@@ -11,16 +11,16 @@ inputs:
     default: ''
 outputs:
   release:
-    description: 'Current release version (e.g. `x.y`)'
+    description: 'The current release version (e.g. `x.y`)'
     value: '${{ steps.release.outputs.value }}'
   version:
-    description: 'Current build version (e.g. `x.y.z(-(alpha|release-candidate)-(epoch))?`)'
+    description: 'The current build version (e.g. `x.y.z(-(alpha|release-candidate)-(epoch))?`)'
     value: '${{ steps.build.outputs.value }}'
   pre-release-type:
-    description: 'Current pre-release type (if defined) (e.g. `alpha`, `release-candidate`, ``)'
+    description: 'The current pre-release type (if defined) (e.g. `alpha`, `release-candidate`, ``)'
     value: '${{ steps.pre-release-type.outputs.value }}'
   pre-release-metadata:
-    description: 'Current pre-release metadata (if defined) (e.g. `alpha-1692107243`, `release-candidate-1692112160`, ``)'
+    description: 'The current pre-release metadata (if defined) (e.g. `alpha-1692107243`, `release-candidate-1692112160`, ``)'
     value: '${{ steps.pre-release-metadata.outputs.value }}'
 runs:
   using: composite
