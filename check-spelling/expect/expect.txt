@@ -30,6 +30,7 @@ doubleargument
 dsn
 einfo
 EXPRUNIT
+flightduration
 Healthcheck
 healthcheck
 inlinevar
