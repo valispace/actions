@@ -19,73 +19,13 @@ with:
 
 ## Outputs
 
-### `release`
-
-**release** output contains the current release version (e.g. 'x.y').
-
-```yaml
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: valispace/actions/get-build-version@master
-        id: 'versioning'
-        with:
-          versioning-file: '__init__.py'
-      - run: 'echo "RELEASE : ${{ steps.versioning.outputs.release }}"'
-```
-
-### `version`
-
-**version** output contains the current build version (e.g. 'x.y.z(-(alpha|release-candidate)-(&lt;epoch&gt;))?').
-
-```yaml
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: valispace/actions/get-build-version@master
-        id: 'versioning'
-        with:
-          versioning-file: '__init__.py'
-      - run: 'echo "VERSION : ${{ steps.versioning.outputs.version }}"'
-```
-
-### `pre-release-type`
-
-**version** output contains the current pre-release type (if defined) (e.g. 'alpha', 'release-candidate', '').
-
-```yaml
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: valispace/actions/get-build-version@master
-        id: 'versioning'
-        with:
-          versioning-file: '__init__.py'
-      - run: 'echo "PRE-RELEASE TYPE: ${{ steps.versioning.outputs.pre-release-type }}"'
-```
-
-### `pre-release-metadata`
-
-**version** output contains the current pre-release metadata (if defined) (e.g. 'alpha-1692107243', 'release-candidate-1692112160', '').
-
-```yaml
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: valispace/actions/get-build-version@master
-        id: 'versioning'
-        with:
-          versioning-file: '__init__.py'
-      - run: 'echo "PRE-RELEASE METADATA : ${{ steps.versioning.outputs.pre-release-metadata }}"'
-```
+The following outputs are available:
+|Name|Type|Description|
+|---|---|---|
+|release|String|The current release version (e.g. '1.0')|
+|version|String|The current build version (e.g. '1.0.0-release-candidate-1692107243')|
+|pre-release-type|String|The current pre-release type (if defined) (e.g. 'release-candidate')|
+|pre-release-metadata|String|The current pre-release metadata (if defined) (e.g. 'release-candidate-1692107243')|
 
 ## License
 
