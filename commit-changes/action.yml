@@ -1,0 +1,102 @@
+name: 'Commit changes'
+description: 'Creates a commit with the current changes and the given message'
+author: 'Valispace'
+branding:
+  icon: 'git-commit'
+  color: 'orange'
+inputs:
+  repository-owner:
+    description: 'The account owner of the repository (the name is not case sensitive)'
+    required: true
+    default: ''
+  repository-name:
+    description: 'The name of the repository (the name is not case sensitive)'
+    required: true
+    default: ''
+  branch-name:
+    description: 'The branch where to commit'
+    required: true
+    default: ''
+  commit-author:
+    description: 'The commit author (one of `github_actions`, `github_actor`, `user_info`)'
+    required: true
+    default: ''
+  commit-message:
+    description: 'The commit message'
+    required: true
+    default: ''
+  protected-branch-token: 
+    description: 'The token to manage the protected branch rules'
+    required: true
+    default: ''
+outputs:
+  committed:
+    description: 'Whether the action has created a commit'
+    value: '${{ steps.commit.outputs.committed }}'
+  commit-long-sha:
+    description: 'The complete SHA of the commit that has been created'
+    value: '${{ steps.commit.outputs.commit_long_sha }}'
+  commit-sha:
+    description: 'The short SHA of the commit that has been created'
+    value: '${{ steps.commit.outputs.committed_sha }}'
+  pushed:
+    description: 'Whether the action has pushed to the remote'
+    value: '${{ steps.commit.outputs.pushed }}'
+runs:
+  using: composite
+  steps:
+    - id: protection-off
+      if: ${{ contains('develop,staging,master', inputs.branch-name) }}
+      uses: octokit/request-action@v2.1.7
+      env:
+        GITHUB_TOKEN: '${{ inputs.protected-branch-token }}'
+      with:
+        route: 'PUT /repos/{owner}/{repo}/branches/{branch}/protection'
+        owner: '${{ inputs.repository-owner }}'
+        repo: '${{ inputs.repository-name }}'
+        branch: '${{ inputs.branch-name }}'
+        restrictions: |
+          null
+        enforce_admins: |
+          null
+        required_pull_request_reviews: |
+          null
+        required_status_checks: |
+          null
+        required_conversation_resolution: |
+          false
+        required_linear_history: |
+          false
+        mediaType: |
+          previews: [luke-cage]
+    - id: commit
+      uses: EndBug/add-and-commit@v9
+      with:
+        default_author: '${{ inputs.commit-author }}'
+        message: "${{ inputs.commit-message }}"
+    - id: protection-on
+      if: ${{ contains('develop,staging,master', inputs.branch) }}
+      uses: octokit/request-action@v2.1.7
+      env:
+        GITHUB_TOKEN: '${{ inputs.protected-branch-token }}'
+      with:
+        route: 'PUT /repos/{owner}/{repo}/branches/{branch}/protection'
+        owner: '${{ inputs.repository-owner }}'
+        repo: '${{ inputs.repository-name }}'
+        branch: '${{ inputs.branch-name }}'
+        restrictions: |
+          null
+        enforce_admins: |
+          null
+        required_pull_request_reviews: |
+          required_approving_review_count: 2
+          dismiss_stale_reviews: true
+        required_status_checks: |
+          strict: true
+          contexts: []
+        required_conversation_resolution: |
+          true
+        required_linear_history: |
+          true
+        mediaType: |
+          previews: [luke-cage]
