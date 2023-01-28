@@ -46,7 +46,7 @@ jobs:
 
 ### `python-path`
 
-**python-path** output is available with the absolute path of the Python interpreter executable if you need it:
+The **python-path** output contains the absolute path of the Python interpreter executable if you need it:
 
 ```yaml
 jobs:
@@ -63,7 +63,7 @@ jobs:
 
 ### `cache-hit`
 
-**cache-hit** output is available with a boolean value that indicates whether a cache hit occurred on the primary key:
+The **cache-hit** output contains a boolean value that indicates whether a cache hit occurred on the primary key:
 
 ```yaml
 jobs:
