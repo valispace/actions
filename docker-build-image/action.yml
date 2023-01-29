@@ -49,5 +49,7 @@ runs:
         context: '${{ inputs.context }}'
         file: '${{ inputs.dockerfile }}'
         outputs: 'type=docker,dest=${{ inputs.archive-name }}'
+        cache-from: 'type=gha'
+        cache-to: 'type=gha'
         labels: ${{ inputs.labels }}
         tags: ${{ inputs.tags }}
