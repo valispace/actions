@@ -1,0 +1,33 @@
+name: 'Build archive'
+description: 'Creates a compressed tarball (`tar.gz`) from the given directory'
+author: 'Valispace'
+branding:
+  icon: 'archive'
+  color: 'orange'
+inputs:
+  directory:
+    description: 'Path to the directory to archive'
+    required: true
+    default: ''
+  archive-name:
+    description: 'The compressed tarball name'
+    required: true
+    default: ''
+runs:
+  using: composite
+  steps:
+    - id: check-required-inputs
+      run: |
+        if [[ "${{ inputs.directory }}" == "" ]]; then
+          echo "::error title=${{ github.job }}::Path to the directory to archive is required!" && exit 1
+        fi
+        if [[ "${{ inputs.archive-name }}" == "" ]]; then
+          echo "::error title=${{ github.job }}::The tarball name is required!" && exit 1
+        fi
+      shell: bash
+    - id: tar
+      run: 'tar --create --gzip --exclude-vcs --exclude-vcs-ignores --exclude-backups --exclude-caches --exclude-from ${{ inputs.directory }}/.exclude --file "${{ inputs.archive-name }}" --directory ${{ inputs.directory }} $( cd ${{ inputs.directory }} && find * -maxdepth 0 )'
+      shell: bash
+    - id: test
+      run: 'tar --list --ungzip --file "${{ inputs.archive-name }}" 1> /dev/null'
+      shell: bash
