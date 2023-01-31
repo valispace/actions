@@ -18,9 +18,9 @@ with:
   # Required: false
   # Default: 'Dockerfile'
   dockerfile: 'backend/vali/Dockerfile'
-  # Server address of Docker registry (if not set it will default to GitHub Container Registry).
+  # Server address of Docker registry (if not set it will default to Docker Hub).
   # Required: false
-  # Default: 'ghcr.io'
+  # Default: ''
   registry: 'ghcr.io'
   # Username used to log against the Docker registry.
   # Required: false
