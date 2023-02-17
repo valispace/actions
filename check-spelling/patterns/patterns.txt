@@ -236,3 +236,6 @@ sed 's/(?:[^/]*?[a-zA-Z]{3,}[^/]*?/){2}
 
 # ignore 'tvv' word
 tvv
+
+# ignore 'yyyy-mm-ddThh:mm:ss'
+Thh

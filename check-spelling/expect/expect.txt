@@ -48,6 +48,7 @@ LRPAREN
 martialonline
 maxdepth
 maxoc
+metafunc
 millis
 minoc
 modedependent
@@ -101,6 +102,7 @@ tml
 traitlets
 typecheck
 typevar
+UNITSQ
 UNITTOEXPR
 updateonbuild
 ureg
