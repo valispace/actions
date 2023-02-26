@@ -1,4 +1,5 @@
 version: 2
+
 updates:
 
   # Maintain dependencies for GitHub Actions
@@ -6,38 +7,53 @@ updates:
     directory: "/"
     schedule:
       interval: "daily"
-    reviewers:
-      - "valispace/automations"
+    reviewers: ["valispace/automations"]
+    labels: ["github-actions"]
+    commit-message:
+      prefix: "ci(workflows)"
+    ignore:
+      - update-types: ["version-update:semver-major"]
 
   # Maintain dependencies for Docker
   - package-ecosystem: "docker"
     directory: "/"
     schedule:
       interval: "daily"
-    reviewers:
-      - "valispace/operations"
+    reviewers: ["valispace/operations"]
+    labels: ["docker"]
+    commit-message:
+      prefix: "build(docker)"
+    ignore:
+      - update-types: ["version-update:semver-major"]
 
   # Maintain dependencies for Python
   - package-ecosystem: "pip"
     directory: "/"
     schedule:
       interval: "daily"
+    reviewers: ["valispace/devops"]
+    labels: ["dependencies", "python"]
+    commit-message:
+      prefix: "build(pip)"
     ignore:
-      - dependency-name: "pyparsing"
-        versions: [">2.x"] # cannot update further without breaking integration with pint
+      - update-types: ["version-update:semver-major"]
       - dependency-name: "pylint"
-        versions: [">2.14.x"] # cannot update further without breaking integration with pylint-django-2.5.3
-    reviewers:
-      - "valispace/devops"
+        versions: [">2.x"]  # cannot update further without breaking integration with pylint-django-2.5.3
+      - dependency-name: "pyparsing"
+        versions: [">2.x"]  # cannot update further without breaking integration with pint-0.21.dev0+valispace
 
   # Maintain dependencies for npm
   - package-ecosystem: "npm"
     directory: "/"
     schedule:
       interval: "daily"
+    reviewers: ["valispace/devops"]
+    labels: ["dependencies", "javascript"]
+    commit-message:
+      prefix: "build(npm)"
     ignore:
-      # Wildcards match zero or more arbitrary characters
-      # // All base Angular packages. Leaving @angular/core for the warning.
+      - update-types: ["version-update:semver-major"]
+      # All base Angular packages (leaving @angular/core for the warning)
       - dependency-name: "@angular-devkit/build-angular"
       - dependency-name: "@angular/animations"
       - dependency-name: "@angular/cli"
@@ -62,7 +78,7 @@ updates:
       - dependency-name: "tslib"
       - dependency-name: "typescript"
       - dependency-name: "zone.js"
-      #// ESLint related packages. Leaving @angular-eslint/schematics for the warning.
+      # ESLint related packages (leaving @angular-eslint/schematics for the warning)
       - dependency-name: "@angular-eslint/builder"
       - dependency-name: "@angular-eslint/eslint-plugin"
       - dependency-name: "@angular-eslint/eslint-plugin-template"
@@ -70,5 +86,3 @@ updates:
       - dependency-name: "@typescript-eslint/eslint-plugin"
       - dependency-name: "@typescript-eslint/parser"
       - dependency-name: "eslint"
-    reviewers:
-      - "valispace/devops"
