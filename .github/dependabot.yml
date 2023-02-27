@@ -12,7 +12,8 @@ updates:
     commit-message:
       prefix: "ci(workflows)"
     ignore:
-      - update-types: ["version-update:semver-major"]
+      - dependency-name: '*'
+        update-types: ["version-update:semver-major"]
 
   # Maintain dependencies for Docker
   - package-ecosystem: "docker"
@@ -24,7 +25,8 @@ updates:
     commit-message:
       prefix: "build(docker)"
     ignore:
-      - update-types: ["version-update:semver-major"]
+      - dependency-name: '*'
+        update-types: ["version-update:semver-major"]
 
   # Maintain dependencies for Python
   - package-ecosystem: "pip"
@@ -36,7 +38,8 @@ updates:
     commit-message:
       prefix: "build(pip)"
     ignore:
-      - update-types: ["version-update:semver-major"]
+      - dependency-name: '*'
+        update-types: ["version-update:semver-major"]
       - dependency-name: "pylint"
         versions: [">2.x"]  # cannot update further without breaking integration with pylint-django-2.5.3
       - dependency-name: "pyparsing"
@@ -52,7 +55,8 @@ updates:
     commit-message:
       prefix: "build(npm)"
     ignore:
-      - update-types: ["version-update:semver-major"]
+      - dependency-name: '*'
+        update-types: ["version-update:semver-major"]
       # All base Angular packages (leaving @angular/core for the warning)
       - dependency-name: "@angular-devkit/build-angular"
       - dependency-name: "@angular/animations"
@@ -66,8 +70,17 @@ updates:
       - dependency-name: "@angular/platform-browser-dynamic"
       - dependency-name: "@angular/material-moment-adapter"
       - dependency-name: "@angular/router"
+      - dependency-name: "@storybook/addon-actions"
+      - dependency-name: "@storybook/addon-essentials"
+      - dependency-name: "@storybook/addon-interactions"
+      - dependency-name: "@storybook/addon-links"
+      - dependency-name: "@storybook/angular"
+      - dependency-name: "@storybook/builder-webpack5"
+      - dependency-name: "@storybook/manager-webpack5"
+      - dependency-name: "@storybook/testing-library"
       - dependency-name: "@types/jasmine"
       - dependency-name: "@types/node"
+      - dependency-name: "ag-grid-enterprise"
       - dependency-name: "jasmine-core"
       - dependency-name: "karma"
       - dependency-name: "karma-chrome-launcher"
@@ -75,6 +88,7 @@ updates:
       - dependency-name: "karma-jasmine"
       - dependency-name: "karma-jasmine-html-reporter"
       - dependency-name: "rxjs"
+      - dependency-name: "storybook-addon-mock"
       - dependency-name: "tslib"
       - dependency-name: "typescript"
       - dependency-name: "zone.js"
@@ -86,3 +100,4 @@ updates:
       - dependency-name: "@typescript-eslint/eslint-plugin"
       - dependency-name: "@typescript-eslint/parser"
       - dependency-name: "eslint"
+      - dependency-name: "eslint-plugin-storybook"
