@@ -17,6 +17,10 @@ inputs:
     description: 'The AWS ECR repository'
     required: true
     default: ''
+  dockerfile-path:
+    description: 'The path to the Dockerfile'
+    required: true
+    default: 'Dockerfile'
   version:
     description: 'The build version'
     required: true
@@ -40,7 +44,7 @@ runs:
   - name: Build and tag
     shell: bash
     run: |
-      docker build --build-arg APP_VERSION=${{ inputs.version }} -t ${{ steps.login-ecr.outputs.registry }}/${{ inputs.aws-repository }}:${{ inputs.version }} .
+      docker build --build-arg APP_VERSION=${{ inputs.version }} -t ${{ steps.login-ecr.outputs.registry }}/${{ inputs.aws-repository }}:${{ inputs.version }} -f ${{ inputs.dockerfile-path }} .
       docker tag ${{ steps.login-ecr.outputs.registry }}/${{ inputs.aws-repository }}:${{ inputs.version }} ${{ steps.login-ecr.outputs.registry }}/${{ inputs.aws-repository }}:${{ inputs.environment }}
   - name: Push image
     shell: bash
