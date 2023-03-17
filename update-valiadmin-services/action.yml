@@ -1,0 +1,43 @@
+name: 'Update ValiAdmin Services'
+description: 'Updates ValiAdmin with the given build and access token'
+inputs:
+  service_type:
+    description: 'The name of the service'
+    required: true
+    default: ''
+  environment:
+    description: 'The environment of the service'
+    required: true
+    default: ''
+  version:
+    description: 'The build version'
+    required: true
+    default: ''
+  domain:
+    description: 'The endpoint of the service'
+    required: true
+    default: ''
+  access_token:
+    description: 'The access token of the given service'
+    required: true
+    default: ''
+  valiadmin-staging-token:
+    description: 'The ValiAdmin (staging) access token'
+    required: true
+    default: ''
+  valiadmin-master-token:
+    description: 'The ValiAdmin (prod) access token'
+    required: true
+    default: ''
+runs:
+  using: composite
+  steps:
+    - id: data
+      run: 'echo "raw={ \\\"service_type\\\": \\\"${{ inputs.service_type }}\\\", \\\"environment\\\": \\\"${{ inputs.environment }}\\\", \\\"build\\\": \\\"${{ inputs.version }}\\\", \\\"domain\\\": \\\"${{ inputs.domain }}\\\", \\\"access_token\\\": \\\"${{ inputs.access_token }}\\\" }" >> $GITHUB_OUTPUT'
+      shell: bash
+    - id: staging
+      run: 'curl --request POST --header "Authorization: Token ${{ inputs.valiadmin-staging-token }}" --header "Content-Type: application/json" --data-raw "${{ steps.data.outputs.raw }}" "https://admin-staging.services.valispace.com/api/selfdeployedservices/updateonbuild/"'
+      shell: bash
+    - id: master
+      run: 'curl --request POST --header "Authorization: Token ${{ inputs.valiadmin-master-token }}" --header "Content-Type: application/json" --data-raw "${{ steps.data.outputs.raw }}" "https://admin.services.valispace.com/api/selfdeployedservices/updateonbuild/"'
+      shell: bash
