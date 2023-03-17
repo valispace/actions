@@ -27,7 +27,7 @@ with:
   # The build version.
   # Required: true
   # Default: ''
-  version: 'vali-engine'
+  version: 'valiengine'
   # The environment associated with the version.
   # Required: true
   # Default: ''

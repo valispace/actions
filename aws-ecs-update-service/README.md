@@ -27,7 +27,7 @@ with:
   # The AWS ECS service.
   # Required: true
   # Default: ''
-  ecs-service: 'vali-engine'
+  ecs-service: 'valiengine'
 ```
 <!-- end usage -->
 
