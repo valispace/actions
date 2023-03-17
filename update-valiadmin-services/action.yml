@@ -33,7 +33,7 @@ runs:
   using: composite
   steps:
     - id: data
-      run: 'echo "raw={ \\\"service_type\\\": \\\"${{ inputs.service_type }}\\\", \\\"environment\\\": \\\"${{ inputs.environment }}\\\", \\\"build\\\": \\\"${{ inputs.version }}\\\", \\\"domain\\\": \\\"${{ inputs.domain }}\\\", \\\"access_token\\\": \\\"${{ inputs.access_token }}\\\" }" >> $GITHUB_OUTPUT'
+      run: 'echo "raw={ \\\"service_type\\\": \\\"${{ inputs.service_type }}\\\", \\\"name\\\": \\\"${{ inputs.environment }}\\\", \\\"build\\\": \\\"${{ inputs.version }}\\\", \\\"domain\\\": \\\"${{ inputs.domain }}\\\", \\\"access_token\\\": \\\"${{ inputs.access_token }}\\\" }" >> $GITHUB_OUTPUT'
       shell: bash
     - id: staging
       run: 'curl --request POST --header "Authorization: Token ${{ inputs.valiadmin-staging-token }}" --header "Content-Type: application/json" --data-raw "${{ steps.data.outputs.raw }}" "https://admin-staging.services.valispace.com/api/selfdeployedservices/updateonbuild/"'

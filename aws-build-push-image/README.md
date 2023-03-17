@@ -24,6 +24,10 @@ with:
   # Required: true
   # Default: ''
   aws-repository: 'vali-engine'
+  # The dockerfile location.
+  # Required: true
+  # Default: ''
+  dockerfile-path:
   # The build version.
   # Required: true
   # Default: ''
