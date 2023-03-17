@@ -24,10 +24,10 @@ with:
   # Required: true
   # Default: ''
   ecs-cluster: 'services-cluster-prod'
-  # The AWS ECS service.
+  # The AWS ECS services, comma-separated.
   # Required: true
   # Default: ''
-  ecs-service: 'valiengine'
+  ecs-services: 'valiengine'
 ```
 <!-- end usage -->
 

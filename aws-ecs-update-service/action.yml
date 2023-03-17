@@ -17,8 +17,8 @@ inputs:
     description: 'The AWS ECS cluster'
     required: true
     default: ''
-  ecs-service:
-    description: 'The AWS ECS service'
+  ecs-services:
+    description: 'The AWS ECS services, comma-separated (e.g. `vali-engine,vali-engine-worker`)'
     required: true
     default: ''
 runs:
@@ -33,4 +33,9 @@ runs:
   - name: Restart ECS Service
     shell: bash
     run: |
-      aws ecs update-service --cluster ${{ inputs.ecs-cluster }} --service ${{ inputs.ecs-service }} --force-new-deployment
+      IFS=','
+      read -ra SERVICES <<< "${{ inputs.ecs-services }}"
+      for service in "${SERVICES[@]}"; do
+        echo "Restarting $service"
+        aws ecs update-service --cluster ${{ inputs.ecs-cluster }} --service $service --force-new-deployment
+      done
