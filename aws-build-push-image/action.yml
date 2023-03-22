@@ -50,3 +50,9 @@ runs:
     shell: bash
     run: |
       docker push ${{ steps.login-ecr.outputs.registry }}/${{ inputs.aws-repository }} --all-tags
+  - name: Save image as tar
+    id: save-tar
+    shell: bash
+    run: |
+      docker tag ${{ steps.login-ecr.outputs.registry }}/${{ inputs.aws-repository }}:${{ inputs.version }} valispace/${{ inputs.aws-repository }}:${{ inputs.version }}
+      docker save valispace/${{ inputs.aws-repository }}:${{ inputs.version }} | gzip > ${{ inputs.aws-repository }}.tar.gz
