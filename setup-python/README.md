@@ -1,6 +1,6 @@
 # Valispace setup-python Action
 
-This action extends [actions/setup-python](https://github.com/actions/setup-python) by installing packages `pkg-config`, `xmlsec1`, `libxmlsec1`, `libxmlsec1-dev` and the given list of Python requirements (optionally).
+This action extends [actions/setup-python](https://github.com/actions/setup-python) by installing packages `pkg-config`, `xmlsec1`, `libxmlsec1`, `libxmlsec1-dev`, `libxmlsec1-openssl` and the given list of Python requirements (optionally) in one step.
 
 _This is **not** intended to replace the original action!_
 
@@ -16,11 +16,11 @@ with:
   python-version: '3.9'
   # Path to the Python requirements file.
   # Required: false
-  # Default: 'requirements.txt'
+  # Default: ''
   python-requirements-file: 'requirements.txt'
   # Whether to install required packages and Python requirements after setup.
   # Required: false
-  # Default: true
+  # Default: 'false'
   python-install-requirements: true
 ```
 <!-- end usage -->
@@ -29,7 +29,7 @@ with:
 
 ### `python-version`
 
-Using **python-version** output it's possible to get the installed by action Python version. This output is useful when the input `python-version` is given as a range (e.g. 3.8.0 - 3.10.0 ), but down in a workflow you need to operate with the exact installed version (e.g. 3.10.1). 
+Using **python-version** output it's possible to get the installed by action Python version. This output is useful when the input `python-version` is given as a range (e.g. `3.8.0 - 3.10.0` ), but down in a workflow you need to operate with the exact installed version (e.g. `3.10.1`). 
 
 ```yaml
 jobs:
