@@ -1,0 +1,47 @@
+name: 'Set up Node.js'
+description: 'Set up GitHub Actions workflow with a version of Node.js configured with Valispace settings'
+author: 'Valispace'
+branding:
+  icon: 'code'
+  color: 'orange'
+inputs:
+  node-version:
+    description: "Version range or exact version of Node.js to use, using SemVer's version range syntax"
+    required: false
+    default: '18'
+  node-dependencies-file:
+    description: 'Path to the Node.js dependencies file'
+    required: false
+    default: ''
+  node-install-dependencies:
+    description: 'Whether to install required Node.js dependencies after setup'
+    required: false
+    default: 'false'
+outputs:
+  node-version:
+    description: 'The installed and configured Node.js version'
+    value: '${{ steps.node.outputs.node-version }}'
+  cache-hit:
+    description: 'A boolean value to indicate a cache entry was found'
+    value: '${{ steps.node.outputs.cache-hit }}'
+runs:
+  using: composite
+  steps:
+    - id: check-required-inputs
+      run: |
+        if [[ ${{ inputs.node-install-dependencies }} == 'true' ]]; then
+          if [[ "${{ inputs.node-dependencies-file }}" == "" ]]; then
+            echo "::error title=${{ github.job }}::Path to the Node.js dependencies file is missing!" && exit 1
+          fi
+        fi
+      shell: bash
+    - id: node
+      uses: actions/setup-node@v3
+      with:
+        node-version: '${{ inputs.node-version }}'
+        cache: 'npm'
+        cache-dependency-path: '${{ inputs.node-dependencies-file }}'
+    - id: dependencies
+      if: ${{ (inputs.node-install-dependencies == 'true') }}
+      run: 'npm ci --no-fund --ignore-scripts --legacy-peer-deps --prefix "$( dirname "${{ inputs.node-dependencies-file }}" )"'
+      shell: bash
