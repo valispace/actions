@@ -1,4 +1,4 @@
-name: 'Set up python'
+name: 'Set up Python'
 description: 'Set up GitHub Actions workflow with a version of Python configured with Valispace settings'
 author: 'Valispace'
 branding:
@@ -10,11 +10,11 @@ inputs:
     required: false
     default: '3.9'
   python-requirements-file:
-    description: 'Path to the python requirements file'
+    description: 'Path to the Python requirements file'
     required: false
     default: ''
   python-install-requirements:
-    description: 'Whether to install required packages and python requirements after setup'
+    description: 'Whether to install required packages and Python requirements after setup'
     required: false
     default: 'false'
 outputs:
@@ -34,7 +34,7 @@ runs:
       run: |
         if [[ ${{ inputs.python-install-requirements }} == 'true' ]]; then
           if [[ "${{ inputs.python-requirements-file }}" == "" ]]; then
-            echo "::error title=${{ github.job }}::Path to the python requirements file is missing!" && exit 1
+            echo "::error title=${{ github.job }}::Path to the Python requirements file is missing!" && exit 1
           fi
         fi
       shell: bash

@@ -1,6 +1,6 @@
 # Valispace setup-python Action
 
-This action extends [actions/setup-python](https://github.com/actions/setup-python) by installing packages `pkg-config`, `xmlsec1`, `libxmlsec1`, `libxmlsec1-dev` and the given list of python requirements (optionally).
+This action extends [actions/setup-python](https://github.com/actions/setup-python) by installing packages `pkg-config`, `xmlsec1`, `libxmlsec1`, `libxmlsec1-dev` and the given list of Python requirements (optionally).
 
 _This is **not** intended to replace the original action!_
 
@@ -14,11 +14,11 @@ with:
   # Required: false
   # Default: '3.9'
   python-version: '3.9'
-  # Path to the python requirements file.
+  # Path to the Python requirements file.
   # Required: false
   # Default: 'requirements.txt'
   python-requirements-file: 'requirements.txt'
-  # Whether to install required packages and python requirements after setup.
+  # Whether to install required packages and Python requirements after setup.
   # Required: false
   # Default: true
   python-install-requirements: true
