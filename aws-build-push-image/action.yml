@@ -25,6 +25,10 @@ inputs:
     description: 'The AWS S3 repository'
     required: true
     default: ''
+  aws-s3-branch:
+    description: 'The AWS S3 branch'
+    required: true
+    default: ''
   dockerfile-path:
     description: 'The path to the Dockerfile'
     required: true
@@ -82,6 +86,6 @@ runs:
       aws-access-key-id: '${{ inputs.aws-access-key-id }}'
       aws-s3-bucket: '${{ inputs.aws-s3-bucket }}'
       aws-s3-repository: '${{ inputs.aws-s3-repository }}'
-      aws-s3-branch: '${{ inputs.environment }}'
+      aws-s3-branch: '${{ inputs.aws-s3-branch }}'
       aws-s3-tag: '${{ inputs.version }}'
       archive: '${{ inputs.archive-name }}.tar.gz'
