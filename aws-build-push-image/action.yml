@@ -13,18 +13,22 @@ inputs:
     description: 'The AWS Region (e.g. `eu-central-1`)'
     required: false
     default: 'eu-central-1'
-  aws-repository:
+  aws-ecr-repository:
     description: 'The AWS ECR repository'
+    required: true
+    default: ''
+  aws-s3-bucket:
+    description: 'The AWS S3 bucket'
+    required: true
+    default: ''
+  aws-s3-repository:
+    description: 'The AWS S3 repository'
     required: true
     default: ''
   dockerfile-path:
     description: 'The path to the Dockerfile'
     required: true
     default: 'Dockerfile'
-  code-path:
-    description: 'The path to the code'
-    required: false
-    default: '.'
   version:
     description: 'The build version'
     required: true
@@ -33,29 +37,51 @@ inputs:
     description: 'The environment associated with the version'
     required: true
     default: ''
+  archive-name:
+    description: 'The archive name to be saved'
+    required: true
+    default: ''
+
 runs:
   using: "composite"
   steps:
+
   - name: Configure AWS credentials
     uses: aws-actions/configure-aws-credentials@v1
     with:
       aws-secret-access-key: '${{ inputs.aws-secret-access-key }}'
       aws-access-key-id: '${{ inputs.aws-access-key-id }}'
       aws-region: '${{ inputs.aws-region }}'
+
   - name: Login to Amazon ECR
     id: login-ecr
     uses: aws-actions/amazon-ecr-login@v1
+
   - name: Build and tag
     shell: bash
     run: |
-      docker build --build-arg APP_VERSION=${{ inputs.version }} -t ${{ steps.login-ecr.outputs.registry }}/${{ inputs.aws-repository }}:${{ inputs.version }} -f ${{ inputs.dockerfile-path }} ${{ inputs.code-path }} 
+      docker build --build-arg APP_VERSION=${{ inputs.version }} -t ${{ steps.login-ecr.outputs.registry }}/${{ inputs.aws-repository }}:${{ inputs.version }} -f ${{ inputs.dockerfile-path }} .
       docker tag ${{ steps.login-ecr.outputs.registry }}/${{ inputs.aws-repository }}:${{ inputs.version }} ${{ steps.login-ecr.outputs.registry }}/${{ inputs.aws-repository }}:${{ inputs.environment }}
+
   - name: Push image
     shell: bash
     run: |
       docker push ${{ steps.login-ecr.outputs.registry }}/${{ inputs.aws-repository }} --all-tags
+
   - name: Save image as tar
     id: save-tar
     shell: bash
     run: |
-      docker save ${{ steps.login-ecr.outputs.registry }}/${{ inputs.aws-repository }}:${{ inputs.version }} | gzip > ${{ inputs.aws-repository }}.tar.gz
+      docker save ${{ steps.login-ecr.outputs.registry }}/${{ inputs.aws-repository }}:${{ inputs.version }} | gzip > ${{ inputs.archive-name }}.tar.gz
+
+  - name: 'Upload image tar to AWS S3 bucket'
+    id: aws-s3-upload-archive
+    uses: valispace/actions/aws-s3-upload-archive@master
+    with:
+      aws-secret-access-key: '${{ inputs.aws-secret-access-key }}'
+      aws-access-key-id: '${{ inputs.aws-access-key-id }}'
+      aws-s3-bucket: '${{ inputs.aws-s3-bucket }}'
+      aws-s3-repository: '${{ inputs.aws-s3-repository }}'
+      aws-s3-branch: '${{ inputs.environment }}'
+      aws-s3-tag: '${{ inputs.environment }}'
+      archive: '${{ inputs.archive-name }}.tar.gz'
