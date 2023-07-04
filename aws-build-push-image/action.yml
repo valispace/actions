@@ -83,5 +83,5 @@ runs:
       aws-s3-bucket: '${{ inputs.aws-s3-bucket }}'
       aws-s3-repository: '${{ inputs.aws-s3-repository }}'
       aws-s3-branch: '${{ inputs.environment }}'
-      aws-s3-tag: '${{ inputs.environment }}'
+      aws-s3-tag: '${{ inputs.version }}'
       archive: '${{ inputs.archive-name }}.tar.gz'
