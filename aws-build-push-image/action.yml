@@ -19,15 +19,15 @@ inputs:
     default: ''
   aws-s3-bucket:
     description: 'The AWS S3 bucket'
-    required: true
+    required: false
     default: ''
   aws-s3-repository:
     description: 'The AWS S3 repository'
-    required: true
+    required: false
     default: ''
   aws-s3-branch:
     description: 'The AWS S3 branch'
-    required: true
+    required: false
     default: ''
   dockerfile-path:
     description: 'The path to the Dockerfile'
