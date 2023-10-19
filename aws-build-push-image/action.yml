@@ -43,7 +43,7 @@ inputs:
     default: ''
   archive-name:
     description: 'The archive name to be saved'
-    required: true
+    required: false
     default: ''
 
 runs:
@@ -74,12 +74,14 @@ runs:
 
   - name: Save image as tar
     id: save-tar
+    if: inputs.archive-name != ''
     shell: bash
     run: |
       docker save ${{ steps.login-ecr.outputs.registry }}/${{ inputs.aws-ecr-repository }}:${{ inputs.version }} | gzip > ${{ inputs.archive-name }}.tar.gz
 
   - name: 'Upload image tar to AWS S3 bucket'
     id: aws-s3-upload-archive
+    if: inputs.archive-name != ''
     uses: valispace/actions/aws-s3-upload-archive@master
     with:
       aws-secret-access-key: '${{ inputs.aws-secret-access-key }}'
