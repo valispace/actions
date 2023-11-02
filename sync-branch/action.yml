@@ -37,6 +37,8 @@ runs:
     shell: bash
     run: |
       git fetch origin ${{ inputs.source-branch }}:${{ inputs.source-branch }}
+      git config --local user.email "actions@github.com"
+      git config --local user.name "GitHub Actions"
       IFS=',' read -ra FILES <<< "${{ inputs.files }}"
       for file in "${FILES[@]}"; do
         git checkout ${{ inputs.source-branch }} -- $file
