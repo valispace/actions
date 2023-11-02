@@ -5,12 +5,12 @@ inputs:
     description: 'Github Token'
     required: true
     default: ''
-  branch-name:
-    description: 'The name of the branch to be created'
+  to-branch:
+    description: 'The name of the branch where the PR will merge to'
     required: true
     default: ''
-  source-branch:
-    description: 'The name of the source branch to merge from'
+  temp-branch:
+    description: 'The name of the branch to be created'
     required: true
     default: ''
   files:
@@ -31,26 +31,25 @@ runs:
 
   - name: Create Branch
     shell: bash
-    run: git checkout -b ${{ inputs.branch-name }}
+    run: git checkout -b ${{ inputs.temp-branch}}
 
   - name: Merge specific files from source branch
     shell: bash
     run: |
-      git fetch origin ${{ inputs.source-branch }}:${{ inputs.source-branch }}
       git config --local user.email "actions@github.com"
       git config --local user.name "GitHub Actions"
       IFS=',' read -ra FILES <<< "${{ inputs.files }}"
       for file in "${FILES[@]}"; do
-        git checkout ${{ inputs.source-branch }} -- $file
+        git checkout origin/${{ inputs.to-branch }} -- $file
         git add $file
       done
       git commit -m "Merged specific files from source branch"
-      git push --set-upstream origin ${{ inputs.branch-name }}
+      git push --set-upstream origin ${{ inputs.temp-branch }}
 
   - name: Opening pull request
     id: pull
     uses: tretuna/sync-branches@1.4.0
     with:
       GITHUB_TOKEN: ${{ inputs.github-token }}
-      FROM_BRANCH: ${{ inputs.branch-name }}
-      TO_BRANCH: ${{ inputs.source-branch }}
+      FROM_BRANCH: ${{ inputs.temp-branch }}
+      TO_BRANCH: ${{ inputs.to-branch }}
