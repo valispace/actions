@@ -44,6 +44,7 @@ runs:
         git checkout ${{ inputs.to-branch }} -- $file
         git add $file
       done
+      git merge origin/${{ inputs.to-branch }}
       git commit -m "Merged specific files from source branch"
       git push --set-upstream origin ${{ inputs.temp-branch }}
 
