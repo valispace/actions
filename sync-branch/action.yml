@@ -40,7 +40,7 @@ runs:
   - name: Merge specific files from source branch
     shell: bash
     run: |
-      git fetch origin ${{ inputs.to-branch }}:${{ inputs.to-branch }}
+      git fetch --depth 1 --no-tags origin ${{ inputs.to-branch }}:${{ inputs.to-branch }}
       git config --local user.email "actions@github.com"
       git config --local user.name "GitHub Actions"
       IFS=',' read -ra FILES <<< "${{ inputs.files }}"
