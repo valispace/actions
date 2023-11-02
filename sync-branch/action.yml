@@ -36,11 +36,12 @@ runs:
   - name: Merge specific files from source branch
     shell: bash
     run: |
+      git fetch origin ${{ inputs.to-branch }}:${{ inputs.to-branch }}
       git config --local user.email "actions@github.com"
       git config --local user.name "GitHub Actions"
       IFS=',' read -ra FILES <<< "${{ inputs.files }}"
       for file in "${FILES[@]}"; do
-        git checkout origin/${{ inputs.to-branch }} -- $file
+        git checkout ${{ inputs.to-branch }} -- $file
         git add $file
       done
       git commit -m "Merged specific files from source branch"
