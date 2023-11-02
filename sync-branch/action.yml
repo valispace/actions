@@ -30,9 +30,11 @@ runs:
       node-version: 12
 
   - name: Create Branch
+    shell: bash
     run: git checkout -b ${{ inputs.branch-name }}
 
   - name: Merge specific files from source branch
+    shell: bash
     run: |
       IFS=',' read -ra FILES <<< "${{ inputs.files }}"
       for file in "${FILES[@]}"; do
