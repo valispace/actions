@@ -45,6 +45,7 @@ runs:
         git add $file
       done
       git commit -m "Merged specific files from source branch"
+      git push
 
   - name: Opening pull request
     id: pull
