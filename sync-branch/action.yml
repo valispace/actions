@@ -45,7 +45,7 @@ runs:
         git add $file
       done
       git commit -m "Merged specific files from source branch"
-      git push
+      git push --set-upstream origin ${{ inputs.branch-name }}
 
   - name: Opening pull request
     id: pull
