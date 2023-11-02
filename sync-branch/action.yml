@@ -13,6 +13,10 @@ inputs:
     description: 'The name of the branch to be created'
     required: true
     default: ''
+  pr-author-id:
+    description: 'The id of the PR Autor'
+    required: true
+    default: ''
   files:
     description: 'List of files to be merged from the source branch'
     required: true
@@ -45,7 +49,6 @@ runs:
         git add $file
       done
       git commit -m "Merged specific files from source branch"
-      git merge origin/${{ inputs.to-branch }}
       git push --set-upstream origin ${{ inputs.temp-branch }}
 
   - name: Opening pull request
@@ -55,3 +58,4 @@ runs:
       GITHUB_TOKEN: ${{ inputs.github-token }}
       FROM_BRANCH: ${{ inputs.temp-branch }}
       TO_BRANCH: ${{ inputs.to-branch }}
+      REVIEWERS: [pr-author-id]
