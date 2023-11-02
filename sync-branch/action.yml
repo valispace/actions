@@ -52,4 +52,4 @@ runs:
     with:
       GITHUB_TOKEN: ${{ inputs.github-token }}
       FROM_BRANCH: ${{ inputs.branch-name }}
-      TO_BRANCH: ${{ inputs.source-name }}
+      TO_BRANCH: ${{ inputs.source-branch }}
