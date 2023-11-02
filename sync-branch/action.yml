@@ -17,10 +17,6 @@ inputs:
     description: 'The id of the PR Autor'
     required: false
     default: ''
-  team_reviewers:
-    description: 'The id of the team'
-    required: false
-    default: ''
   files:
     description: 'List of files to be merged from the source branch'
     required: true
@@ -63,5 +59,4 @@ runs:
       FROM_BRANCH: ${{ inputs.temp-branch }}
       TO_BRANCH: ${{ inputs.to-branch }}
       REVIEWERS: '["${{ inputs.pr-author-id }}"]'
-      TEAM_REVIEWERS: '["${{ inputs.team_reviewers }}"]'
       PULL_REQUEST_AUTO_MERGE_METHOD: 'merge'
