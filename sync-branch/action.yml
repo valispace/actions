@@ -1,6 +1,10 @@
 name: 'Sync Branches'
 description: 'Creates a branch and opens a PR with target branch'
 inputs:
+  github-token:
+    description: 'Github Token'
+    required: true
+    default: ''
   branch-name:
     description: 'The name of the branch to be created'
     required: true
@@ -41,6 +45,6 @@ runs:
     id: pull
     uses: tretuna/sync-branches@1.4.0
     with:
-      GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+      GITHUB_TOKEN: ${{ inputs.github-token }}
       FROM_BRANCH: ${{ inputs.branch-name }}
       TO_BRANCH: ${{ inputs.source-name }}
