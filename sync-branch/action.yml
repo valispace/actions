@@ -1,0 +1,46 @@
+name: 'Sync Branches'
+description: 'Creates a branch and opens a PR with target branch'
+inputs:
+  branch-name:
+    description: 'The name of the branch to be created'
+    required: true
+    default: ''
+  source-branch:
+    description: 'The name of the source branch to merge from'
+    required: true
+    default: ''
+  files:
+    description: 'List of files to be merged from the source branch'
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+
+  - name: Checkout
+    uses: actions/checkout@v2
+
+  - name: Set up Node
+    uses: actions/setup-node@v1
+    with:
+      node-version: 12
+
+  - name: Create Branch
+    run: git checkout -b ${{ inputs.branch-name }}
+
+  - name: Merge specific files from source branch
+    run: |
+      IFS=',' read -ra FILES <<< "${{ inputs.files }}"
+      for file in "${FILES[@]}"; do
+        git checkout ${{ inputs.source-branch }} $file
+        git add $file
+      done
+      git commit -m "Merged specific files from source branch"
+
+  - name: Opening pull request
+    id: pull
+    uses: tretuna/sync-branches@1.4.0
+    with:
+      GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+      FROM_BRANCH: ${{ inputs.branch-name }}
+      TO_BRANCH: ${{ inputs.source-name }}
