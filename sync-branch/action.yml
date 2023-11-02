@@ -36,7 +36,7 @@ runs:
   - name: Merge specific files from source branch
     shell: bash
     run: |
-      git pull ${{ inputs.source-branch }}
+      git pull origin ${{ inputs.source-branch }}
       IFS=',' read -ra FILES <<< "${{ inputs.files }}"
       for file in "${FILES[@]}"; do
         git checkout ${{ inputs.source-branch }} -- $file
