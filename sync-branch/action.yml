@@ -38,7 +38,7 @@ runs:
     run: |
       IFS=',' read -ra FILES <<< "${{ inputs.files }}"
       for file in "${FILES[@]}"; do
-        git checkout ${{ inputs.source-branch }} $file
+        git checkout origin/${{ inputs.source-branch }} -- $file
         git add $file
       done
       git commit -m "Merged specific files from source branch"
