@@ -53,7 +53,7 @@ runs:
 
   - name: Opening pull request
     id: pull
-    uses: tretuna/sync-branches@1.4.0
+    uses: tretuna/sync-branches@main
     with:
       GITHUB_TOKEN: ${{ inputs.github-token }}
       FROM_BRANCH: ${{ inputs.temp-branch }}
