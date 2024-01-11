@@ -35,7 +35,7 @@ runs:
 
   - name: Create Branch
     shell: bash
-    run: git checkout -b ${{ inputs.temp-branch}}
+    run: git checkout -b sync-${{ inputs.temp-branch}}
 
   - name: Merge specific files from source branch
     shell: bash
@@ -49,14 +49,14 @@ runs:
         git add $file
       done
       git commit -m "Merged specific files from source branch"
-      git push --set-upstream origin ${{ inputs.temp-branch }}
+      git push --set-upstream origin sync-${{ inputs.temp-branch }}
 
   - name: Opening pull request
     id: pull
     uses: tretuna/sync-branches@main
     with:
       GITHUB_TOKEN: ${{ inputs.github-token }}
-      FROM_BRANCH: ${{ inputs.temp-branch }}
+      FROM_BRANCH: sync-${{ inputs.temp-branch }}
       TO_BRANCH: ${{ inputs.to-branch }}
       REVIEWERS: '["${{ inputs.pr-author-id }}"]'
       PULL_REQUEST_AUTO_MERGE_METHOD: 'merge'
