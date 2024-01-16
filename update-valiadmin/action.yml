@@ -13,6 +13,10 @@ inputs:
     description: 'The build version'
     required: true
     default: ''
+  valiadmin-develop-token:
+    description: 'The ValiAdmin (develop) access token'
+    required: true
+    default: ''
   valiadmin-staging-token:
     description: 'The ValiAdmin (staging) access token'
     required: true
@@ -26,6 +30,9 @@ runs:
   steps:
     - id: data
       run: 'echo "raw={ \\\"repo\\\": \\\"${{ inputs.repository-name }}\\\", \\\"branch\\\": \\\"${{ inputs.branch-name }}\\\", \\\"build\\\": \\\"${{ inputs.version }}\\\" }" >> $GITHUB_OUTPUT'
+      shell: bash
+    - id: develop
+      run: 'curl --request POST --header "Authorization: Token ${{ inputs.valiadmin-develop-token }}" --header "Content-Type: application/json" --data-raw "${{ steps.data.outputs.raw }}" "https://api.admin.develop.internal.valispace.com/api/branches/updateonbuild/"'
       shell: bash
     - id: staging
       run: 'curl --request POST --header "Authorization: Token ${{ inputs.valiadmin-staging-token }}" --header "Content-Type: application/json" --data-raw "${{ steps.data.outputs.raw }}" "https://admin-staging.services.valispace.com/api/branches/updateonbuild/"'
