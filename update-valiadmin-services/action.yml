@@ -42,7 +42,7 @@ runs:
     - id: develop
       run: |
         if [[ -n "${{ inputs.valiadmin-develop-token }}" ]]; then
-          curl --request POST --header "Authorization: Token ${{ inputs.valiadmin-develop-token }}" --header "Content-Type: application/json" --data-raw "${{ steps.data.outputs.raw }}" "https://api.admin.develop.internal.valispace.com/api/branches/updateonbuild/"
+          curl --request POST --header "Authorization: Token ${{ inputs.valiadmin-develop-token }}" --header "Content-Type: application/json" --data-raw "${{ steps.data.outputs.raw }}" "https://api.admin.develop.internal.valispace.com/api/selfdeployedservices/updateonbuild/"
         fi
       shell: bash
     - id: staging
