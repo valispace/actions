@@ -21,6 +21,10 @@ inputs:
     description: 'The access token of the given service'
     required: true
     default: ''
+  valiadmin-develop-token:
+    description: 'The ValiAdmin (develop) access token'
+    required: false
+    default: ''
   valiadmin-staging-token:
     description: 'The ValiAdmin (staging) access token'
     required: true
@@ -34,6 +38,12 @@ runs:
   steps:
     - id: data
       run: 'echo "raw={ \\\"service_type\\\": \\\"${{ inputs.service_type }}\\\", \\\"name\\\": \\\"${{ inputs.environment }}\\\", \\\"build\\\": \\\"${{ inputs.version }}\\\", \\\"domain\\\": \\\"${{ inputs.domain }}\\\", \\\"access_token\\\": \\\"${{ inputs.access_token }}\\\" }" >> $GITHUB_OUTPUT'
+      shell: bash
+    - id: develop
+      run: |
+        if [[ -n "${{ inputs.valiadmin-develop-token }}" ]]; then
+          curl --request POST --header "Authorization: Token ${{ inputs.valiadmin-develop-token }}" --header "Content-Type: application/json" --data-raw "${{ steps.data.outputs.raw }}" "https://api.admin.develop.internal.valispace.com/api/selfdeployedservices/updateonbuild/"
+        fi
       shell: bash
     - id: staging
       run: 'curl --request POST --header "Authorization: Token ${{ inputs.valiadmin-staging-token }}" --header "Content-Type: application/json" --data-raw "${{ steps.data.outputs.raw }}" "https://admin-staging.services.valispace.com/api/selfdeployedservices/updateonbuild/"'
