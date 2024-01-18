@@ -64,7 +64,7 @@ runs:
   - name: Build and tag
     shell: bash
     run: |
-      docker build --build-arg APP_VERSION=${{ inputs.version }} REGISTRY=${{ steps.login-ecr.outputs.registry }} -t ${{ steps.login-ecr.outputs.registry }}/${{ inputs.aws-ecr-repository }}:${{ inputs.version }} -f ${{ inputs.dockerfile-path }} .
+      docker build --build-arg REGISTRY=${{ steps.login-ecr.outputs.registry }} --build-arg BUILD_DATE=$(date -u +'%Y-%m-%dT%H:%M:%SZ') --build-arg BUILD_VERSION=${{ inputs.version }} -t ${{ steps.login-ecr.outputs.registry }}/${{ inputs.aws-ecr-repository }}:${{ inputs.version }} -f ${{ inputs.dockerfile-path }} .
       docker tag ${{ steps.login-ecr.outputs.registry }}/${{ inputs.aws-ecr-repository }}:${{ inputs.version }} ${{ steps.login-ecr.outputs.registry }}/${{ inputs.aws-ecr-repository }}:${{ inputs.environment }}
 
   - name: Push image
