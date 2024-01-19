@@ -65,6 +65,11 @@ runs:
     shell: bash
     run: |
       docker build --build-arg APP_VERSION=${{ inputs.version }} -t ${{ steps.login-ecr.outputs.registry }}/${{ inputs.aws-ecr-repository }}:${{ inputs.version }} -f ${{ inputs.dockerfile-path }} .
+
+  - name: Tag
+    if: inputs.environment != ''
+    shell: bash
+    run: |
       docker tag ${{ steps.login-ecr.outputs.registry }}/${{ inputs.aws-ecr-repository }}:${{ inputs.version }} ${{ steps.login-ecr.outputs.registry }}/${{ inputs.aws-ecr-repository }}:${{ inputs.environment }}
 
   - name: Push image
