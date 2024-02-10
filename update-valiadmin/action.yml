@@ -40,3 +40,6 @@ runs:
     - id: master
       run: 'curl --request POST --header "Authorization: Token ${{ inputs.valiadmin-master-token }}" --header "Content-Type: application/json" --data-raw "${{ steps.data.outputs.raw }}" "https://admin.services.valispace.com/api/branches/updateonbuild/"'
       shell: bash
+    - id: new_master
+      run: 'curl --request POST --header "Authorization: Token ${{ inputs.valiadmin-master-token }}" --header "Content-Type: application/json" --data-raw "${{ steps.data.outputs.raw }}" "https://api.admin.prod.internal.valispace.com/api/branches/updateonbuild/"'
+      shell: bash
