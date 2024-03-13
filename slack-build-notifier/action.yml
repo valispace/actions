@@ -95,7 +95,7 @@ runs:
 
     - name: 'Notify channel #${{ inputs.slack-channel }}'
       id: e2e-notify
-      if: ${{ inputs.notification-type == 'e2e' }}
+      if: ${{ inputs.notification-type == 'vali' }}
       uses: ./simple-notify
       env:
         SLACK_WEBHOOK_URL: '${{ inputs.slack-webhook-url }}'
@@ -103,7 +103,7 @@ runs:
         channel: '${{ inputs.slack-channel }}'
         status: '${{ inputs.job-status }}'
         success_text:   '  [*SUCCESS*] <${{ inputs.github-server-url }}/${{ inputs.github-owner }}/${{ inputs.github-repo }}/actions/runs/${{ inputs.github-run-id }}|${{ github.workflow }} (${{ inputs.github-repo }})>'
-        failure_text:   '  [*FAILURE*] <${{ inputs.github-server-url }}/${{ inputs.github-owner }}/${{ inputs.github-repo }}/actions/runs/${{ inputs.github-run-id }}|${{ github.workflow }} (${{ inputs.github-repo }} (${{ needs.setup.outputs.repository }})>'
+        failure_text:   '  [*FAILURE*] <${{ inputs.github-server-url }}/${{ inputs.github-owner }}/${{ inputs.github-repo }}/actions/runs/${{ inputs.github-run-id }}|${{ github.workflow }} (${{ inputs.github-repo }} (${{ inputs.github-repo }})>'
         cancelled_text: '[*CANCELLED*] <${{ inputs.github-server-url }}/${{ inputs.github-owner }}/${{ inputs.github-repo }}/actions/runs/${{ inputs.github-run-id }}|${{ github.workflow }} (${{ inputs.github-repo }})>'
         fields: |
             [
