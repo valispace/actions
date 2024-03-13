@@ -6,11 +6,38 @@ inputs:
     description: 'Slack Webhook URL to send build notifications'
     required: true
     default: ''
+  github-server-url:
+    description: 'Github server URL'
+    required: true
+    default: ''
+  github-owner:
+    description: 'Github owner'
+    required: true
+    default: ''
+  github-repo:
+    description: 'Github repository'
+    required: true
+    default: ''
+  app-version:
+    description: 'The version of the application'
+    required: true
+    default: ''
+  github-branch:
+    description: 'The branch of the repository'
+    required: true
+    default: ''
+  github-trigger:
+    description: 'The trigger of the build'
+    required: true
+    default: ''
+  github-sha:
+    description: 'The commit SHA'
+    required: true
+    default: ''
 
 runs:
   using: composite
   steps:
-  #   ---- NOTIFICATIONS ----
     - name: 'Notify channel #${{ steps.sanitize.outputs.channel }}'
       id: notify
       if: ${{ always() }}
@@ -20,10 +47,10 @@ runs:
       with:
         channel: '#${{ steps.sanitize.outputs.channel }}'
         status: '${{ job.status }}'
-        success_text:   '  [*SUCCESS*] <${{ github.server_url }}/${{ steps.sanitize.outputs.owner }}/${{ steps.sanitize.outputs.repo }}/actions/runs/${{ github.run_id }}|${{ github.workflow }} (${{ steps.sanitize.outputs.repo }} - ${{ steps.bump.outputs.version }})>'
-        failure_text:   '  [*FAILURE*] <${{ github.server_url }}/${{ steps.sanitize.outputs.owner }}/${{ steps.sanitize.outputs.repo }}/actions/runs/${{ github.run_id }}|${{ github.workflow }} (${{ steps.sanitize.outputs.repo }} - ${{ steps.bump.outputs.version }})>'
-        cancelled_text: '[*CANCELLED*] <${{ github.server_url }}/${{ steps.sanitize.outputs.owner }}/${{ steps.sanitize.outputs.repo }}/actions/runs/${{ github.run_id }}|${{ github.workflow }} (${{ steps.sanitize.outputs.repo }} - ${{ steps.bump.outputs.version }})>'
+        success_text:   '  [*SUCCESS*] <${{ inputs.github-server-url }}/${{ inputs.github-owner }}/${{ inputs.github-repo }}/actions/runs/${{ github.run_id }}|${{ github.workflow }} (${{ inputs.github-repo }} - ${{ inputs.app-version }})>'
+        failure_text:   '  [*FAILURE*] <${{ inputs.github-server-url }}/${{ inputs.github-owner }}/${{ inputs.github-repo }}/actions/runs/${{ github.run_id }}|${{ github.workflow }} (${{ inputs.github-repo }} - ${{ inputs.app-version }})>'
+        cancelled_text: '[*CANCELLED*] <${{ inputs.github-server-url }}/${{ inputs.github-owner }}/${{ inputs.github-repo }}/actions/runs/${{ github.run_id }}|${{ github.workflow }} (${{ inputs.github-repo }} - ${{ inputs.app-version }})>'
         fields: |
           [
-            { "title": "Trigger", "value": "<${{ github.server_url }}/${{ steps.sanitize.outputs.owner }}/${{ steps.sanitize.outputs.repo }}/commit/${{ github.sha }}|${{ steps.sanitize.outputs.branch }}> - ${{ steps.sanitize.outputs.trigger }}", "short": false }
+            { "title": "Trigger", "value": "<${{ inputs.github-server-url }}/${{ inputs.github-owner }}/${{ inputs.github-repo }}/commit/${{ inputs.github-sha }}|${{ inputs.github-branch }}> - ${{ inputs.github-trigger }}", "short": false }
           ]
