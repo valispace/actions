@@ -34,13 +34,17 @@ inputs:
     description: 'The commit SHA'
     required: true
     default: ''
+  notification-type:
+    description: 'The type of notification'
+    required: true
+    default: 'build'
 
 runs:
   using: composite
   steps:
     - name: 'Notify channel #${{ steps.sanitize.outputs.channel }}'
       id: notify
-      if: ${{ always() }}
+      if: ${{ always() }} && {{ inputs.notification-type == 'build' }}
       uses: adamkdean/simple-slack-notify@v1.1.2
       env:
         SLACK_WEBHOOK_URL: '${{ inputs.slack-webhook-url }}'
