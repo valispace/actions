@@ -44,7 +44,7 @@ runs:
   steps:
     - name: 'Notify channel #${{ steps.sanitize.outputs.channel }}'
       id: notify
-      if: ${{ inputs.notification-type == 'build' && always() }}
+      if: ${{ inputs.notification-type == 'build' }} && ${{ success() || failure() || cancelled() }}
       uses: adamkdean/simple-slack-notify@v1.1.2
       env:
         SLACK_WEBHOOK_URL: '${{ inputs.slack-webhook-url }}'
