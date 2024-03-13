@@ -16,7 +16,7 @@ runs:
       if: ${{ always() }}
       uses: adamkdean/simple-slack-notify@v1.1.2
       env:
-        SLACK_WEBHOOK_URL: '${{ secrets.SLACK_WEBHOOK_URL }}'
+        SLACK_WEBHOOK_URL: '${{ inputs.slack-webhook-url }}'
       with:
         channel: '#${{ steps.sanitize.outputs.channel }}'
         status: '${{ job.status }}'
