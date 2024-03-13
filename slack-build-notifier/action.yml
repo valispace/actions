@@ -6,6 +6,22 @@ inputs:
     description: 'Slack Webhook URL to send build notifications'
     required: true
     default: ''
+  slack-channel:
+    description: 'The channel to send the notification to'
+    required: false
+    default: ''
+  job-status:
+    description: 'The status of the job'
+    required: true
+    default: ''
+  notification-type:
+    description: 'The type of notification'
+    required: true
+    default: 'build'
+  app-version:
+    description: 'The version of the application'
+    required: true
+    default: ''
   github-server-url:
     description: 'Github server URL'
     required: true
@@ -16,10 +32,6 @@ inputs:
     default: ''
   github-repo:
     description: 'Github repository'
-    required: true
-    default: ''
-  app-version:
-    description: 'The version of the application'
     required: true
     default: ''
   github-branch:
@@ -34,27 +46,67 @@ inputs:
     description: 'The commit SHA'
     required: true
     default: ''
-  notification-type:
-    description: 'The type of notification'
+  github-run-id:
+    description: 'The run ID of the job'
     required: true
-    default: 'build'
+    default: ''
+  github-workflow:
+    description: 'The workflow name'
+    required: true
+    default: ''
+  github-ref-name:
+    description: 'The ref name'
+    required: true
+    default: ''
+  message:
+    description: 'The message to send'
+    required: false
+    default: ''
 
 runs:
   using: composite
   steps:
-    - name: 'Notify channel #${{ steps.sanitize.outputs.channel }}'
-      id: notify
+    - name: 'Notify channel #${{ inputs.slack-channel }}'
+      id: build-notify
       if: ${{ inputs.notification-type == 'build' }}
-      uses: adamkdean/simple-slack-notify@v1.1.2
+      uses: ./simple-notify
       env:
         SLACK_WEBHOOK_URL: '${{ inputs.slack-webhook-url }}'
       with:
-        channel: '#${{ steps.sanitize.outputs.channel }}'
-        status: '${{ job.status }}'
-        success_text:   '  [*SUCCESS*] <${{ inputs.github-server-url }}/${{ inputs.github-owner }}/${{ inputs.github-repo }}/actions/runs/${{ github.run_id }}|${{ github.workflow }} (${{ inputs.github-repo }} - ${{ inputs.app-version }})>'
-        failure_text:   '  [*FAILURE*] <${{ inputs.github-server-url }}/${{ inputs.github-owner }}/${{ inputs.github-repo }}/actions/runs/${{ github.run_id }}|${{ github.workflow }} (${{ inputs.github-repo }} - ${{ inputs.app-version }})>'
-        cancelled_text: '[*CANCELLED*] <${{ inputs.github-server-url }}/${{ inputs.github-owner }}/${{ inputs.github-repo }}/actions/runs/${{ github.run_id }}|${{ github.workflow }} (${{ inputs.github-repo }} - ${{ inputs.app-version }})>'
+        channel: '${{ inputs.slack-channel }}'
+        status: '${{ inputs.job-status }}'
+        success_text:   '  [*SUCCESS*] <${{ inputs.github-server-url }}/${{ inputs.github-owner }}/${{ inputs.github-repo }}/actions/runs/${{ inputs.github-run-id }}|${{ github.workflow }} (${{ inputs.github-repo }} - ${{ inputs.app-version }})>'
+        failure_text:   '  [*FAILURE*] <${{ inputs.github-server-url }}/${{ inputs.github-owner }}/${{ inputs.github-repo }}/actions/runs/${{ inputs.github-run-id }}|${{ github.workflow }} (${{ inputs.github-repo }} - ${{ inputs.app-version }})>'
+        cancelled_text: '[*CANCELLED*] <${{ inputs.github-server-url }}/${{ inputs.github-owner }}/${{ inputs.github-repo }}/actions/runs/${{ inputs.github-run-id }}|${{ github.workflow }} (${{ inputs.github-repo }} - ${{ inputs.app-version }})>'
         fields: |
           [
             { "title": "Trigger", "value": "<${{ inputs.github-server-url }}/${{ inputs.github-owner }}/${{ inputs.github-repo }}/commit/${{ inputs.github-sha }}|${{ inputs.github-branch }}> - ${{ inputs.github-trigger }}", "short": false }
           ]
+    
+    - name: 'Notify channel #${{ inputs.slack-channel }}'
+      id: simple-notify
+      if: ${{ inputs.notification-type == 'simple' }}
+      uses: ./simple-notify
+      with:
+        webhook: '${{ inputs.slack-webhook-url }}'
+        channel: '${{ inputs.slack-channel }}'
+        status: '${{ inputs.job-status}}'
+        text:   '${{ inputs.message }}'
+
+    - name: 'Notify channel #${{ inputs.slack-channel }}'
+      id: e2e-notify
+      if: ${{ inputs.notification-type == 'e2e' }}
+      uses: ./simple-notify
+      env:
+        SLACK_WEBHOOK_URL: '${{ inputs.slack-webhook-url }}'
+      with:
+        channel: '${{ inputs.slack-channel }}'
+        status: '${{ inputs.job-status }}'
+        success_text:   '  [*SUCCESS*] <${{ inputs.github-server-url }}/${{ inputs.github-owner }}/${{ inputs.github-repo }}/actions/runs/${{ inputs.github-run-id }}|${{ github.workflow }} (${{ inputs.github-repo }})>'
+        failure_text:   '  [*FAILURE*] <${{ inputs.github-server-url }}/${{ inputs.github-owner }}/${{ inputs.github-repo }}/actions/runs/${{ inputs.github-run-id }}|${{ github.workflow }} (${{ inputs.github-repo }} (${{ needs.setup.outputs.repository }})>'
+        cancelled_text: '[*CANCELLED*] <${{ inputs.github-server-url }}/${{ inputs.github-owner }}/${{ inputs.github-repo }}/actions/runs/${{ inputs.github-run-id }}|${{ github.workflow }} (${{ inputs.github-repo }})>'
+        fields: |
+            [
+               { "title":       "Branch", "value": "<${{ github.server_url }}/${{ inputs.github-repo }}/tree/${{ inputs.ref-name }}|${{ inputs.github-branch }}>", "short": true }
+              ,{ "title":      "Version", "value": "${{ github.app-version }}", "short": true }
+            ]
