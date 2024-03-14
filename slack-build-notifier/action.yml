@@ -69,7 +69,7 @@ runs:
     - name: 'Notify channel #${{ inputs.slack-channel }}'
       id: build-notify
       if: ${{ inputs.notification-type == 'build' }}
-      uses: ./simple-notify
+      uses: ../simple-notify
       env:
         SLACK_WEBHOOK_URL: '${{ inputs.slack-webhook-url }}'
       with:
