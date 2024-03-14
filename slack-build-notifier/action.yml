@@ -76,14 +76,11 @@ runs:
       if: ${{ inputs.notification-type == 'build' }}
       shell: bash
       run: |
-        # Check if app-version is empty
         if [ -z "${{ inputs.app-version }}" ]; then
-          # Generate message without version and set it to a variable to be access in the next step
           echo "::set-output name=success_text::[*SUCCESS*] <${{ inputs.github-server-url }}/${{ inputs.github-owner }}/${{ inputs.github-repo }}/actions/runs/${{ inputs.github-run-id }}|${{ github.workflow }} (${{ inputs.github-repo }})>"
           echo "::set-output name=failure_text::[*FAILURE*] <${{ inputs.github-server-url }}/${{ inputs.github-owner }}/${{ inputs.github-repo }}/actions/runs/${{ inputs.github-run-id }}|${{ github.workflow }} (${{ inputs.github-repo }})>"
           echo "::set-output name=cancelled_text::[*CANCELLED*] <${{ inputs.github-server-url }}/${{ inputs.github-owner }}/${{ inputs.github-repo }}/actions/runs/${{ inputs.github-run-id }}|${{ github.workflow }} (${{ inputs.github-repo }})>"
         else
-          # Generate message with version and set it to a variable to be access in the next step
           echo "::set-output name=success_text::[*SUCCESS*] <${{ inputs.github-server-url }}/${{ inputs.github-owner }}/${{ inputs.github-repo }}/actions/runs/${{ inputs.github-run-id }}|${{ github.workflow }} (${{ inputs.github-repo }} - ${{ inputs.app-version }})>"
           echo "::set-output name=failure_text::[*FAILURE*] <${{ inputs.github-server-url }}/${{ inputs.github-owner }}/${{ inputs.github-repo }}/actions/runs/${{ inputs.github-run-id }}|${{ github.workflow }} (${{ inputs.github-repo }} - ${{ inputs.app-version }})>"
           echo "::set-output name=cancelled_text::[*CANCELLED*] <${{ inputs.github-server-url }}/${{ inputs.github-owner }}/${{ inputs.github-repo }}/actions/runs/${{ inputs.github-run-id }}|${{ github.workflow }} (${{ inputs.github-repo }} - ${{ inputs.app-version }})>"
