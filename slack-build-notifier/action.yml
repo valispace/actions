@@ -69,7 +69,7 @@ runs:
     - name: 'Notify channel #${{ inputs.slack-channel }}'
       id: build-notify
       if: ${{ inputs.notification-type == 'build' }}
-      uses: ../simple-notify/action.yml
+      uses: valispace/actions/slack-build-notifier@master
       env:
         SLACK_WEBHOOK_URL: '${{ inputs.slack-webhook-url }}'
       with:
@@ -86,7 +86,7 @@ runs:
     - name: 'Notify channel #${{ inputs.slack-channel }}'
       id: simple-notify
       if: ${{ inputs.notification-type == 'simple' }}
-      uses: ./simple-notify
+      uses: valispace/actions/slack-build-notifier@master
       with:
         webhook: '${{ inputs.slack-webhook-url }}'
         channel: '${{ inputs.slack-channel }}'
@@ -96,7 +96,7 @@ runs:
     - name: 'Notify channel #${{ inputs.slack-channel }}'
       id: e2e-notify
       if: ${{ inputs.notification-type == 'vali' }}
-      uses: ./simple-notify
+      uses: valispace/actions/slack-build-notifier@master
       env:
         SLACK_WEBHOOK_URL: '${{ inputs.slack-webhook-url }}'
       with:
