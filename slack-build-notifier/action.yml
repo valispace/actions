@@ -70,9 +70,8 @@ runs:
       id: build-notify
       if: ${{ inputs.notification-type == 'build' }}
       uses: valispace/actions/simple-slack-notify@master
-      env:
-        SLACK_WEBHOOK_URL: '${{ inputs.slack-webhook-url }}'
       with:
+        webhook: '${{ inputs.slack-webhook-url }}'
         channel: '${{ inputs.slack-channel }}'
         status: '${{ inputs.job-status }}'
         success_text:   '  [*SUCCESS*] <${{ inputs.github-server-url }}/${{ inputs.github-owner }}/${{ inputs.github-repo }}/actions/runs/${{ inputs.github-run-id }}|${{ github.workflow }} (${{ inputs.github-repo }} - ${{ inputs.app-version }})>'
@@ -97,9 +96,8 @@ runs:
       id: e2e-notify
       if: ${{ inputs.notification-type == 'vali' }}
       uses: valispace/actions/simple-slack-notify@master
-      env:
-        SLACK_WEBHOOK_URL: '${{ inputs.slack-webhook-url }}'
       with:
+        wvebhook: '${{ inputs.slack-webhook-url }}'
         channel: '${{ inputs.slack-channel }}'
         status: '${{ inputs.job-status }}'
         success_text:   '  [*SUCCESS*] <${{ inputs.github-server-url }}/${{ inputs.github-owner }}/${{ inputs.github-repo }}/actions/runs/${{ inputs.github-run-id }}|${{ github.workflow }} (${{ inputs.github-repo }})>'
