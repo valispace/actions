@@ -71,7 +71,7 @@ runs:
 
     - name: 'Notify channel #${{ inputs.slack-channel }}'
       id: build-notify
-      if: ${{ inputs.notification-type == 'build' }}
+      if: ${{ inputs.notification-type == 'compose' }}
       uses: valispace/actions/simple-slack-notify@master
       with:
         webhook: '${{ inputs.slack-webhook-url }}'
