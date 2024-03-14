@@ -71,7 +71,7 @@ runs:
   using: composite
   steps:
 
-    - name: Define messages
+    - name: 'Define messages'
       id: define-messages
       if: ${{ inputs.notification-type == 'build' }}
       shell: bash
