@@ -77,12 +77,29 @@ runs:
         webhook: '${{ inputs.slack-webhook-url }}'
         channel: '${{ inputs.slack-channel }}'
         status: '${{ inputs.job-status }}'
-        success_text:   '[*SUCCESS*] <${{ inputs.github-server-url }}/${{ inputs.github-owner }}/${{ inputs.github-repo }}/actions/runs/${{ inputs.github-run-id }}|${{ github.workflow }} (${{ inputs.github-repo }}>'
-        failure_text:   '[*FAILURE*] <${{ inputs.github-server-url }}/${{ inputs.github-owner }}/${{ inputs.github-repo }}/actions/runs/${{ inputs.github-run-id }}|${{ github.workflow }} (${{ inputs.github-repo }}>'
-        cancelled_text: '[*CANCELLED*] <${{ inputs.github-server-url }}/${{ inputs.github-owner }}/${{ inputs.github-repo }}/actions/runs/${{ inputs.github-run-id }}|${{ github.workflow }} (${{ inputs.github-repo }}>'
+        success_text:   '[*SUCCESS*] <${{ inputs.github-server-url }}/${{ inputs.github-owner }}/${{ inputs.github-repo }}/actions/runs/${{ inputs.github-run-id }}|${{ inputs.github-workflow}} (${{ inputs.github-repo }}>'
+        failure_text:   '[*FAILURE*] <${{ inputs.github-server-url }}/${{ inputs.github-owner }}/${{ inputs.github-repo }}/actions/runs/${{ inputs.github-run-id }}|${{ inputs.github-workflow}} (${{ inputs.github-repo }}>'
+        cancelled_text: '[*CANCELLED*] <${{ inputs.github-server-url }}/${{ inputs.github-owner }}/${{ inputs.github-repo }}/actions/runs/${{ inputs.github-run-id }}|${{ inputs.github-workflow}} (${{ inputs.github-repo }}>'
         fields: |
           [
               { "title": "Trigger", "value": "${{ inputs.trigger }}", "short": false }
             ,{ "title": "Version", "value": "${{ inputs.version }}", "short": true }
             ,{ "title":  "Branch", "value": "${{ inputs.branch }}", "short": true }
           ]
+    
+    - name: 'Notify channel #${{ inputs.slack-channel }}'
+      id: pr-compose
+      if: ${{ inputs.notification-type == 'pr-compose' }}
+      uses: valispace/actions/simple-slack-notify@master
+      with:
+        webhook: '${{ inputs.slack-webhook-url }}'
+        channel: '${{ inputs.slack-channel }}'
+        status: '${{ inputs.job-status }}'
+        failure_text: '[*FAILURE*] <${{inputs.github-server-url}}/${{inputs.github-repo}}/actions/runs/${{inputs.github-run-id}}|${{inputs.github-workflow}}>'
+        fields: |
+            [
+              { "title": "Pull Request",
+              "value": "<${{inputs.github-server-url}}/${{inputs.github-repo}}/pull/${{ github.event.pull_request.number }}|${{ github.event.pull_request.title }} > (${{ github.event.pull_request.user.login }})",
+              "short": false }
+            ]
+        
