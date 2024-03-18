@@ -26,7 +26,7 @@ inputs:
     description: 'The branch of the repository'
     required: true
     default: ''
-  github-trigger:
+  trigger:
     description: 'The trigger of the build'
     required: true
     default: ''
@@ -82,7 +82,7 @@ runs:
         cancelled_text: '[*CANCELLED*] <${{ inputs.github-server-url }}/${{ inputs.github-owner }}/${{ inputs.github-repo }}/actions/runs/${{ inputs.github-run-id }}|${{ inputs.github-workflow}} (${{ inputs.github-repo }}>'
         fields: |
           [
-              { "title": "Trigger", "value": "${{ inputs.github-trigger }}", "short": false }
+              { "title": "Trigger", "value": "${{ inputs.trigger }}", "short": false }
             ,{ "title": "Version", "value": "${{ inputs.version }}", "short": true }
             ,{ "title":  "Branch", "value": "${{ inputs.github-branch }}", "short": true }
           ]
