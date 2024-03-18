@@ -22,7 +22,7 @@ inputs:
     description: 'The title of the message'
     required: true
     default: ''
-  branch:
+  github-branch:
     description: 'The branch of the repository'
     required: true
     default: ''
@@ -84,7 +84,7 @@ runs:
           [
               { "title": "Trigger", "value": "${{ inputs.trigger }}", "short": false }
             ,{ "title": "Version", "value": "${{ inputs.version }}", "short": true }
-            ,{ "title":  "Branch", "value": "${{ inputs.branch }}", "short": true }
+            ,{ "title":  "Branch", "value": "${{ inputs.github-branch }}", "short": true }
           ]
     
     - name: 'Notify channel #${{ inputs.slack-channel }}'
