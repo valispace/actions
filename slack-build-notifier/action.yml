@@ -96,6 +96,7 @@ runs:
         channel: '${{ inputs.slack-channel }}'
         status: '${{ inputs.job-status }}'
         failure_text: '[*FAILURE*] <${{inputs.github-server-url}}/${{inputs.github-repo}}/actions/runs/${{inputs.github-run-id}}|${{inputs.github-workflow}}>'
+        success_text: '[*SUCCESS*] <${{inputs.github-server-url}}/${{inputs.github-repo}}/actions/runs/${{inputs.github-run-id}}|${{inputs.github-workflow}}>'
         fields: |
             [
               { "title": "Pull Request",
