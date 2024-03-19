@@ -49,7 +49,6 @@ runs:
         git add $file
       done
       git commit -m "Merged specific files from source branch"
-      git merge ${{ inputs.to-branch }} --allow-unrelated-histories -X ours
       git push --set-upstream origin sync-${{ inputs.temp-branch }}
 
   - name: Opening pull request
