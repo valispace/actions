@@ -50,7 +50,7 @@ runs:
       done
       git commit -m "Merged specific files from source branch"
 
-      git merge --no-commit --no-ff ${{ inputs.to-branch }}
+      git merge --allow-unrelated-histories --no-commit --no-ff ${{ inputs.to-branch }}
 
       if [ $? -eq 0 ]; then
           git commit -m "Merge ${{ inputs.to-branch }} into sync-${{ inputs.temp-branch }}"
