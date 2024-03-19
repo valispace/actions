@@ -44,7 +44,8 @@ runs:
       git config --local user.name "GitHub Actions"
       IFS=',' read -ra FILES <<< "${{ inputs.files }}"
       for file in "${FILES[@]}"; do
-        git checkout origin/${{ inputs.to-branch }} -- $file
+        git fetch origin ${{ inputs.to-branch }}
+        git checkout FETCH_HEAD -- $file
         git add $file
       done
       git commit -m "Merged specific files from source branch"
