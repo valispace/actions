@@ -40,17 +40,16 @@ runs:
   - name: Merge specific files from source branch
     shell: bash
     run: |
-      git fetch --depth 1 --no-tags origin ${{ inputs.to-branch }}:${{ inputs.to-branch }}
       git config --local user.email "actions@github.com"
       git config --local user.name "GitHub Actions"
       IFS=',' read -ra FILES <<< "${{ inputs.files }}"
       for file in "${FILES[@]}"; do
-        git checkout ${{ inputs.to-branch }} -- $file
+        git checkout origin/${{ inputs.to-branch }} -- $file
         git add $file
       done
       git commit -m "Merged specific files from source branch"
 
-      git merge --allow-unrelated-histories --no-commit --no-ff ${{ inputs.to-branch }}
+      git merge --no-commit --no-ff origin/${{ inputs.to-branch }}
 
       if [ $? -eq 0 ]; then
           git commit -m "Merge ${{ inputs.to-branch }} into sync-${{ inputs.temp-branch }}"
