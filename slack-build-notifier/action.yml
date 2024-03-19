@@ -1,0 +1,106 @@
+name: 'Build Notifier'
+description: 'Send build notifications for a Github Action executed'
+
+inputs:
+  slack-webhook-url:
+    description: 'Slack Webhook URL to send build notifications'
+    required: true
+    default: ''
+  slack-channel:
+    description: 'The channel to send the notification to'
+    required: true
+    default: ''
+  job-status:
+    description: 'The status of the job'
+    required: true
+    default: ''
+  message:
+    description: 'The message to send'
+    required: true
+    default: ''
+  version:
+    description: 'The title of the message'
+    required: true
+    default: ''
+  github-branch:
+    description: 'The branch of the repository'
+    required: true
+    default: ''
+  trigger:
+    description: 'The trigger of the build'
+    required: true
+    default: ''
+  github-server-url:
+    description: 'The Github server URL'
+    required: true
+    default: ''
+  github-owner:
+    description: 'The Github owner'
+    required: true
+    default: ''
+  github-repo:
+    description: 'The Github repository'
+    required: true
+    default: ''
+  github-run-id:
+    description: 'The Github run ID'
+    required: true
+    default: ''
+  github-workflow:
+    description: 'The Github workflow'
+    required: true
+    default: ''
+  notification-type:
+    description: 'The type of notification to send'
+    required: true
+    default: 'simple'
+
+runs:
+  using: composite
+  steps:
+
+    - name: 'Notify channel #${{ inputs.slack-channel }}'
+      id: simple-notify
+      if: ${{ inputs.notification-type == 'simple' }}
+      uses: valispace/actions/simple-slack-notify@master
+      with:
+        webhook: '${{ inputs.slack-webhook-url }}'
+        channel: '${{ inputs.slack-channel }}'
+        status: '${{ inputs.job-status}}'
+        text:   '${{ inputs.message }}'
+
+    - name: 'Notify channel #${{ inputs.slack-channel }}'
+      id: build-notify
+      if: ${{ inputs.notification-type == 'compose' }}
+      uses: valispace/actions/simple-slack-notify@master
+      with:
+        webhook: '${{ inputs.slack-webhook-url }}'
+        channel: '${{ inputs.slack-channel }}'
+        status: '${{ inputs.job-status }}'
+        success_text:   '[*SUCCESS*] <${{ inputs.github-server-url }}/${{ inputs.github-owner }}/${{ inputs.github-repo }}/actions/runs/${{ inputs.github-run-id }}|${{ inputs.github-workflow}} (${{ inputs.github-repo }}>'
+        failure_text:   '[*FAILURE*] <${{ inputs.github-server-url }}/${{ inputs.github-owner }}/${{ inputs.github-repo }}/actions/runs/${{ inputs.github-run-id }}|${{ inputs.github-workflow}} (${{ inputs.github-repo }}>'
+        cancelled_text: '[*CANCELLED*] <${{ inputs.github-server-url }}/${{ inputs.github-owner }}/${{ inputs.github-repo }}/actions/runs/${{ inputs.github-run-id }}|${{ inputs.github-workflow}} (${{ inputs.github-repo }}>'
+        fields: |
+          [
+              { "title": "Trigger", "value": "${{ inputs.trigger }}", "short": false }
+            ,{ "title": "Version", "value": "${{ inputs.version }}", "short": true }
+            ,{ "title":  "Branch", "value": "${{ inputs.github-branch }}", "short": true }
+          ]
+    
+    - name: 'Notify channel #${{ inputs.slack-channel }}'
+      id: pr-compose
+      if: ${{ inputs.notification-type == 'pr-compose' }}
+      uses: valispace/actions/simple-slack-notify@master
+      with:
+        webhook: '${{ inputs.slack-webhook-url }}'
+        channel: '${{ inputs.slack-channel }}'
+        status: '${{ inputs.job-status }}'
+        failure_text: '[*FAILURE*] <${{inputs.github-server-url}}/${{inputs.github-repo}}/actions/runs/${{inputs.github-run-id}}|${{inputs.github-workflow}}>'
+        success_text: '[*SUCCESS*] <${{inputs.github-server-url}}/${{inputs.github-repo}}/actions/runs/${{inputs.github-run-id}}|${{inputs.github-workflow}}>'
+        fields: |
+            [
+              { "title": "Pull Request",
+              "value": "<${{inputs.github-server-url}}/${{inputs.github-repo}}/pull/${{ github.event.pull_request.number }}|${{ github.event.pull_request.title }} > (${{ github.event.pull_request.user.login }})",
+              "short": false }
+            ]
+        
