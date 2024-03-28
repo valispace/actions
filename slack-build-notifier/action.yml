@@ -86,7 +86,7 @@ runs:
             ,{ "title": "Version", "value": "${{ inputs.version }}", "short": true }
             ,{ "title":  "Branch", "value": "${{ inputs.github-branch }}", "short": true }
           ]
-    
+
     - name: 'Notify channel #${{ inputs.slack-channel }}'
       id: pr-compose
       if: ${{ inputs.notification-type == 'pr-compose' }}
@@ -100,7 +100,6 @@ runs:
         fields: |
             [
               { "title": "Pull Request",
-              "value": "<${{inputs.github-server-url}}/${{inputs.github-repo}}/pull/${{ github.event.pull_request.number }}|${{ github.event.pull_request.title }} > (${{ github.event.pull_request.user.login }})",
+              "value": "<${{inputs.github-server-url}}/${{ inputs.github-owner }}/${{inputs.github-repo}}/pull/${{ github.event.pull_request.number }}|${{ inputs.message }} > (${{ inputs.trigger }})",
               "short": false }
             ]
-        
