@@ -46,6 +46,10 @@ inputs:
     description: 'The Github run ID'
     required: true
     default: ''
+  github-pr-id:
+    description: 'The Github PR ID'
+    required: true
+    default: ''
   github-workflow:
     description: 'The Github workflow'
     required: true
@@ -100,6 +104,6 @@ runs:
         fields: |
             [
               { "title": "Pull Request",
-              "value": "<${{inputs.github-server-url}}/${{ inputs.github-owner }}/${{inputs.github-repo}}/pull/${{ github.event.pull_request.number }}|${{ inputs.message }} > (${{ inputs.trigger }})",
+              "value": "<${{inputs.github-server-url}}/${{ inputs.github-owner }}/${{ inputs.github-repo }}/pull/${{ inputs.github-pr-id }}|${{ inputs.message }} > (${{ inputs.trigger }})",
               "short": false }
             ]
